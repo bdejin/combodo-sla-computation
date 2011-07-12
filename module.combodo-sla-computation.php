@@ -26,7 +26,7 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'itop-sla-computation'
+			'itop-sla-computation/1.0.0'
 		),
 		'mandatory' => true,
 		'visible' => false,
