@@ -22,8 +22,59 @@
  * @author      Denis Flaven <denis.flaven@combodo.com>
  * @license     http://www.opensource.org/licenses/gpl-3.0.html LGPL
  */
+//
+// Class: CoverageWindow
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:CoverageWindow' => 'Coverage Window',
+	'Class:CoverageWindow+' => '',
+	'Class:CoverageWindow/Attribute:name' => 'Name',
+	'Class:CoverageWindow/Attribute:name+' => '',
+	'Class:CoverageWindow/Attribute:description' => 'Description',
+	'Class:CoverageWindow/Attribute:description+' => '',
+	'Class:CoverageWindow/Attribute:monday_start' => 'Monday Start',
+	'Class:CoverageWindow/Attribute:monday_start+' => '',
+	'Class:CoverageWindow/Attribute:monday_end' => 'Monday End',
+	'Class:CoverageWindow/Attribute:monday_end+' => '',
+	'Class:CoverageWindow/Attribute:tuesday_start' => 'Tuesday Start',
+	'Class:CoverageWindow/Attribute:tuesday_start+' => '',
+	'Class:CoverageWindow/Attribute:tuesday_end' => 'Tuesday End',
+	'Class:CoverageWindow/Attribute:tuesday_end+' => '',
+	'Class:CoverageWindow/Attribute:wednesday_start' => 'Wednesday Start',
+	'Class:CoverageWindow/Attribute:wednesday_start+' => '',
+	'Class:CoverageWindow/Attribute:wednesday_end' => 'Wednesday End',
+	'Class:CoverageWindow/Attribute:wednesday_end+' => '',
+	'Class:CoverageWindow/Attribute:thursday_start' => 'Thursday Start',
+	'Class:CoverageWindow/Attribute:thursday_start+' => '',
+	'Class:CoverageWindow/Attribute:thursday_end' => 'Thursday End',
+	'Class:CoverageWindow/Attribute:thursday_end+' => '',
+	'Class:CoverageWindow/Attribute:friday_start' => 'Friday Start',
+	'Class:CoverageWindow/Attribute:friday_start+' => '',
+	'Class:CoverageWindow/Attribute:friday_end' => 'Friday End',
+	'Class:CoverageWindow/Attribute:friday_end+' => '',
+	'Class:CoverageWindow/Attribute:saturday_start' => 'Saturday Start',
+	'Class:CoverageWindow/Attribute:saturday_start+' => '',
+	'Class:CoverageWindow/Attribute:saturday_end' => 'Saturday End',
+	'Class:CoverageWindow/Attribute:saturday_end+' => '',
+	'Class:CoverageWindow/Attribute:sunday_start' => 'Sunday Start',
+	'Class:CoverageWindow/Attribute:sunday_start+' => '',
+	'Class:CoverageWindow/Attribute:sunday_end' => 'Sunday End',
+	'Class:CoverageWindow/Attribute:sunday_end+' => '',
+	'Class:CoverageWindow/Attribute:friendlyname' => 'Usual name',
+	'Class:CoverageWindow/Attribute:friendlyname+' => '',
+));
 
 Dict::Add('EN US', 'English', 'English', array(
 	// Dictionary entries go here
+	'Menu:CoverageWindow' => 'Coverage Window',
+	'Menu:Holidays' => 'Holidays',
+	'Menu:Holidays+' => 'All Holidays',
+	'Class:Holiday' => 'Holiday',
+	'Class:Holiday/Attribute:name' => 'Name',
+	'Class:Holiday/Attribute:date' => 'Date',
+	'Coverage:StartDate' => 'Start Time',	
+	'Coverage:EndDate' => 'End Time',
+
 ));
 ?>

@@ -62,11 +62,9 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		$aHolidays2 = array();
 		if ($sHolidaysOQL != '')
 		{
-//echo "<pre>sHolidaysOQL $sHolidaysOQL</pre>\n";
 			$oHolidaysSet = new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
 			while($oHoliday = $oHolidaysSet->Fetch())
 			{
-//				echo "Found a holiday: ".$oHoliday->Get('date')."</br>\n";
 				$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
 			}
 		}
@@ -78,19 +76,16 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			// Move forward by one interval and check if we meet the expected duration
 			$aInterval = self::GetNextInterval2($oCurDate, $aHolidays2, $oCoverage);
-//			echo "<p>Idx: $idx</p>";
 			$idx++;
 			if ($idx == 20) break;
 			if ($aInterval != null)
 			{
-//				self::DumpInterval($aInterval['start'], $aInterval['end']);
 				$iIntervalDuration = $aInterval['end']->format('U') - $aInterval['start']->format('U'); // TODO: adjust for Daylight Saving Time change !
 				if ($oStartDate > $aInterval['start'])
 				{
 					$iIntervalDuration = $iIntervalDuration - ($oStartDate->format('U') - $aInterval['start']->format('U')); // TODO: adjust for Daylight Saving Time change !
 				}
 				$iCurDuration += $iIntervalDuration;
-//				echo "<p>Duration in this interval: $iDuration s, so far: $iCurDuration (to reach: $iDuration)</p>";
 				$oCurDate = $aInterval['end'];
 			}
 			else
@@ -101,7 +96,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		while( ($iIntervalDuration !== null) && ($iDuration > $iCurDuration) );
 		
 		$oDeadline = clone $oCurDate;
-//		echo "Ici !".'+'.($iDuration - $iCurDuration).' seconds'."<br/>\n";
 		$oDeadline = $oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
 		return $oDeadline;
 	}
@@ -118,7 +112,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		if (self::IsHoliday($oStart, $aHolidays))
 		{
 			// do nothing, start = end: the interval is of no duration... will be skipped
-//echo "<p> ".$oStart->format('Y-m-d')."is a holiday, skipping</p>";
 		}
 		else
 		{
@@ -130,7 +123,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			
 			$iWeekDay = $oStart->format('w');
 			$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-//echo "<pre>aData:".print_r($aData)."\n</pre>\n";
 			$iStartHour = $aData['start'];
 			$iEndHour = $aData['end'];
 			$oStart->modify("+ $iStartHour hours");
@@ -146,7 +138,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			if (self::IsHoliday($oStart, $aHolidays))
 			{
 				// do nothing, start = end: the interval is of no duration... will be skipped
-//echo "<p> ".$oStart->format('Y-m-d')."is a holiday, skipping (2)</p>";
 			}
 			else
 			{
@@ -161,7 +152,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 				$oEnd = clone $oStart;
 				$iWeekDay = $oStart->format('w');
 				$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-//echo "<pre>aData:".print_r($aData)."\n</pre>\n";
 				$iStartHour = $aData['start'];
 				$iEndHour = $aData['end'];
 				$oStart->modify("+ $iStartHour hours");
@@ -183,18 +173,15 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	protected static function IsHoliday($oDate, $aHolidays)
 	{
 		$sDate = $oDate->format('Y-m-d 00:00:00');
-//echo "<pre>LA: aHolidays:".print_r($aHolidays)."\n</pre>\n";
 		
 		if (isset($aHolidays[$sDate]))
 		{
 			// Holiday found in the calendar
-//			echo "<p>$sDate is a holiday !</p>";
 			return true;
 		}
 		else
 		{
 			// No such holiday in the calendar
-//			echo "<p>$sDate PAS DE VACANCES!</p>";
 			return false;
 		}
 	}
@@ -215,7 +202,7 @@ class CoverageWindow extends cmdbAbstractObject
 	{
 		$aParams = array
 		(
-			"category" => "searchable,servicemgmt",
+			"category" => "searchable,bizmodel",
 			"key_type" => "autoincrement",
 			"name_attcode" => "name",
 			"state_attcode" => "",
@@ -269,7 +256,7 @@ class Holiday extends cmdbAbstractObject
 	{
 		$aParams = array
 		(
-			"category" => "searchable,servicemgmt",
+			"category" => "searchable,bizmodel",
 			"key_type" => "autoincrement",
 			"name_attcode" => "name",
 			"state_attcode" => "",
