@@ -289,7 +289,7 @@ class Holiday extends cmdbAbstractObject
 
 		MetaModel::Init_SetZListItems('details', array('name','date'));
 		MetaModel::Init_SetZListItems('standard_search', array('name','date'));
-		MetaModel::Init_SetZListItems('list', array('name', 'date'));
+		MetaModel::Init_SetZListItems('list', array('date'));
 	}
 	
 }
