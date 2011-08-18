@@ -211,7 +211,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	
 	protected static function IsHoliday($oDate, $aHolidays)
 	{
-		$sDate = $oDate->format('Y-m-d 00:00:00');
+		$sDate = $oDate->format('Y-m-d');
 		
 		if (isset($aHolidays[$sDate]))
 		{
