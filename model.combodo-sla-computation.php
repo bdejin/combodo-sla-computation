@@ -39,34 +39,73 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	{
 		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
 		$oCoverage = null;
-		if ($sCoverageOQL != '')
-		{
-			$oCoverageSet = new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
-			switch($oCoverageSet->Count())
-			{
-				case 0:
-				$oCoverage = null;
-				break;
-				
-				case 1:
-				$oCoverage = $oCoverageSet->Fetch();
-				break;
-				
-				default:
-				// ho, ho, not supported !
-				throw(new Exception('Error: multiple coverage windows found using the query: '.$sCoverageOQL.', for the ticket:'.$oTicket->GetKey()));
-			}
-		}
 
 		$sHolidaysOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
-		$aHolidays2 = array();
 		if ($sHolidaysOQL != '')
 		{
 			$oHolidaysSet = new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
-			while($oHoliday = $oHolidaysSet->Fetch())
+		}
+		else
+		{
+			$oHolidaysSet = DBObjectSet::FromScratch('Holiday'); // Build an empty set
+		}
+
+		if ($sCoverageOQL != '')
+		{
+			$oCoverageSet = new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
+		}
+		else
+		{
+			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
+		}
+		switch($oCoverageSet->Count())
+		{
+			case 0:
+			// No coverage window: 24x7 computation
+			$oDeadline = clone $oStartDate;
+			$oDeadline = $oDeadline->modify( '+'.$iDuration.' seconds');			
+			break;
+			
+			case 1:
+			$oCoverage = $oCoverageSet->Fetch();
+			$oDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+			break;
+			
+			default:
+			$oDeadline = null;
+			// Several coverage windows found, use the one that gives the stricter deadline
+			while($oCoverage = $oCoverageSet->Fetch())
 			{
-				$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
+				$oTmpDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+				// Retain the nearer deadline
+				// According to the PHP documentation, the plain comparison operator between DateTime objects
+				// (i.e $oTmpDeadline < $oDeadline) is only implemented in PHP 5.2.2
+				if ( ($oDeadline == null) || ($oTmpDeadline->format('U') < $oDeadline->format('U')))
+				{
+					$oDeadline = $oTmpDeadline;
+				}			
 			}
+		}
+
+		return $oDeadline;
+	}
+	
+	/**
+	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
+	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
+	 * set of Holiday objects.
+	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
+	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
+	 * @param $iDuration integer The duration (in seconds) in the future
+	 * @param $oStartDate DateTime The starting point for the computation
+	 * @return DateTime The date/time for the deadline
+	 */
+	public static function GetDeadlineFromCoverage(CoverageWindow $oCoverage, DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
+	{
+		$aHolidays2 = array();
+		while($oHoliday = $oHolidaysSet->Fetch())
+		{
+			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
 		}
 
 		$oCurDate = clone $oStartDate;
@@ -97,7 +136,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		
 		$oDeadline = clone $oCurDate;
 		$oDeadline = $oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
-		return $oDeadline;
+		return $oDeadline;		
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -129,7 +168,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			$oEnd->modify("+ $iEndHour hours");
 		}
 
-		if ($oStartDate >= $oEnd)
+		if ($oStartDate->format('U') >= $oEnd->format('U'))
 		{
 			// Next day
 			$oStart = DateTime::createFromFormat('Y-m-d H:i:s', $oStartDate->format('Y-m-d').' 00:00:00');
