@@ -27,6 +27,8 @@
 //
 
 Dict::Add('EN US', 'English', 'English', array(
+	'Menu:CoverageWindows' => 'Coverage Windows',
+	'Menu:CoverageWindows+' => 'All Coverage Windows',
 	'Class:CoverageWindow' => 'Coverage Window',
 	'Class:CoverageWindow+' => '',
 	'Class:CoverageWindow/Attribute:name' => 'Name',
@@ -67,14 +69,28 @@ Dict::Add('EN US', 'English', 'English', array(
 
 Dict::Add('EN US', 'English', 'English', array(
 	// Dictionary entries go here
-	'Menu:CoverageWindow' => 'Coverage Window',
 	'Menu:Holidays' => 'Holidays',
 	'Menu:Holidays+' => 'All Holidays',
 	'Class:Holiday' => 'Holiday',
+	'Class:Holiday+' => 'A non working day',
 	'Class:Holiday/Attribute:name' => 'Name',
 	'Class:Holiday/Attribute:date' => 'Date',
-	'Coverage:StartDate' => 'Start Time',	
-	'Coverage:EndDate' => 'End Time',
+	'Class:Holiday/Attribute:calendar_id' => 'Calendar',
+	'Class:Holiday/Attribute:calendar_id+' => 'The calendar to which this holiday is related (if any)',
+	'Coverage:Description' => 'Description',	
+	'Coverage:StartTime' => 'Start Time',	
+	'Coverage:EndTime' => 'End Time',
 
+));
+
+
+Dict::Add('EN US', 'English', 'English', array(
+	// Dictionary entries go here
+	'Menu:HolidayCalendars' => 'Holiday Calendars',
+	'Menu:HolidayCalendars+' => 'All Holiday Calendars',
+	'Class:HolidayCalendar' => 'Holiday Calendar',
+	'Class:HolidayCalendar+' => 'A group of holidays that other objects can relate to',
+	'Class:HolidayCalendar/Attribute:name' => 'Name',
+	'Class:HolidayCalendar/Attribute:holiday_list' => 'Holidays',
 ));
 ?>

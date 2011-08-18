@@ -272,16 +272,16 @@ class CoverageWindow extends cmdbAbstractObject
 		MetaModel::Init_AddAttribute(new AttributeString("sunday_start", array("allowed_values"=>null, "sql"=>"sunday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 		MetaModel::Init_AddAttribute(new AttributeString("sunday_end", array("allowed_values"=>null, "sql"=>"sunday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 
-		MetaModel::Init_SetZListItems('details', array('name','description',
-			'tab:Definition' => array(			
+		MetaModel::Init_SetZListItems('details', array(
 				'col:col1' => array(
-					'fieldset:Coverage:StartDate' => array('monday_start','tuesday_start','wednesday_start','thursday_start','friday_start','saturday_start','sunday_start' ),
+					'fieldset:Coverage:Description' => array('name','description' ),
 					),
 				'col:col2' => array(
-					'fieldset:Coverage:EndDate' => array('monday_end','tuesday_end','wednesday_end','thursday_end','friday_end','saturday_end','sunday_end'),
+					'fieldset:Coverage:StartTime' => array('monday_start','tuesday_start','wednesday_start','thursday_start','friday_start','saturday_start','sunday_start' ),
+					),
+				'col:col3' => array(
+					'fieldset:Coverage:EndTime' => array('monday_end','tuesday_end','wednesday_end','thursday_end','friday_end','saturday_end','sunday_end'),
 					)
-			)
-
 		));
 		MetaModel::Init_SetZListItems('standard_search', array('name',));
 		MetaModel::Init_SetZListItems('list', array());
@@ -312,17 +312,48 @@ class Holiday extends cmdbAbstractObject
 		// TODO: link the holidays to a kind of calendar object, so that they can be themselves related to a customer/contract or whatever
 		MetaModel::Init_AddAttribute(new AttributeString("name", array("allowed_values"=>null, "sql"=>"name", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 		MetaModel::Init_AddAttribute(new AttributeDate("date", array("allowed_values"=>null, "sql"=>"date", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
+		MetaModel::Init_AddAttribute(new AttributeExternalKey("calendar_id", array("targetclass"=>"HolidayCalendar", "jointype"=>null, "allowed_values"=>new ValueSetObjects("SELECT HolidayCalendar"), "sql"=>"calendar_id", "is_null_allowed"=>true, "on_target_delete"=>DEL_AUTO, "depends_on"=>array())));
 
-		MetaModel::Init_SetZListItems('details', array('name','date'));
-		MetaModel::Init_SetZListItems('standard_search', array('name','date'));
-		MetaModel::Init_SetZListItems('list', array('date'));
+		MetaModel::Init_SetZListItems('details', array('name','date','calendar_id'));
+		MetaModel::Init_SetZListItems('standard_search', array('name','date', 'calendar_id'));
+		MetaModel::Init_SetZListItems('list', array('date', 'calendar_id'));
 	}
 	
 }
 
+class HolidayCalendar extends cmdbAbstractObject
+{
+	public static function Init()
+	{
+		$aParams = array
+		(
+			"category" => "searchable,bizmodel",
+			"key_type" => "autoincrement",
+			"name_attcode" => "name",
+			"state_attcode" => "",
+			"reconc_keys" => array("name"),
+			"db_table" => "holiday_calendar",
+			"db_key_field" => "id",
+			"db_finalclass_field" => "",
+			"icon" => "../modules/combodo-sla-computation/calendar.png",
+		);
+		MetaModel::Init_Params($aParams);
+		MetaModel::Init_InheritAttributes();
+		
+
+		MetaModel::Init_AddAttribute(new AttributeString("name", array("allowed_values"=>null, "sql"=>"name", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
+		MetaModel::Init_AddAttribute(new AttributeLinkedSet("holiday_list", array("linked_class"=>"Holiday", "ext_key_to_me"=>"calendar_id",  "allowed_values"=>null, "count_min"=>0, "count_max"=>0, "depends_on"=>array())));
+
+		MetaModel::Init_SetZListItems('details', array('name','holiday_list'));
+		MetaModel::Init_SetZListItems('standard_search', array('name'));
+		MetaModel::Init_SetZListItems('list', array());
+	}
+	
+}
 $oServiceManagementGroup = new MenuGroup('ServiceManagement', 60 /* fRank */);
 $iRank = 10;
-new OQLMenuNode('CoverageWindow', 'SELECT CoverageWindow', $oServiceManagementGroup->GetIndex(), $iRank++,true /* bsearch */);
+new OQLMenuNode('CoverageWindows', 'SELECT CoverageWindow', $oServiceManagementGroup->GetIndex(), $iRank++,true /* bsearch */);
+new OQLMenuNode('HolidayCalendars', 'SELECT HolidayCalendar', $oServiceManagementGroup->GetIndex(), $iRank++,true /* bsearch */);
 new OQLMenuNode('Holidays', 'SELECT Holiday', $oServiceManagementGroup->GetIndex(), $iRank++,true /* bsearch */);
 
 // By default, since this extension is present, let's use it !
