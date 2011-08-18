@@ -249,7 +249,7 @@ class CoverageWindow extends cmdbAbstractObject
 			"db_table" => "coverage_windows",
 			"db_key_field" => "id",
 			"db_finalclass_field" => "",
-			"icon" => "../modules/combodo-sla-computation/coverage.png",
+			"icon" => "../modules/combodo-sla-computation/images/coverage-window.png",
 		);
 		MetaModel::Init_Params($aParams);
 		MetaModel::Init_InheritAttributes();
@@ -303,7 +303,7 @@ class Holiday extends cmdbAbstractObject
 			"db_table" => "holidays",
 			"db_key_field" => "id",
 			"db_finalclass_field" => "",
-			"icon" => "../modules/combodo-sla-computation/holiday.png",
+			"icon" => "../modules/combodo-sla-computation/images/holiday.png",
 		);
 		MetaModel::Init_Params($aParams);
 		MetaModel::Init_InheritAttributes();
@@ -335,7 +335,7 @@ class HolidayCalendar extends cmdbAbstractObject
 			"db_table" => "holiday_calendar",
 			"db_key_field" => "id",
 			"db_finalclass_field" => "",
-			"icon" => "../modules/combodo-sla-computation/calendar.png",
+			"icon" => "../modules/combodo-sla-computation/images/calendar.png",
 		);
 		MetaModel::Init_Params($aParams);
 		MetaModel::Init_InheritAttributes();
