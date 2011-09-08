@@ -91,6 +91,64 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 	
 	/**
+	 * Get duration (considering only open hours) elapsed bewteen two given DateTimes
+	 * @param $oTicket Ticket The ticket for which to compute the duration
+	 * @param $oStartDate DateTime The starting point for the computation (default = now)
+	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 */
+	public static function GetOpenDuration($oTicket, DateTime $oStartDate, DateTime $oEndDate)
+	{
+		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
+		$oCoverage = null;
+
+		$sHolidaysOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
+		if ($sHolidaysOQL != '')
+		{
+			$oHolidaysSet = new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
+		}
+		else
+		{
+			$oHolidaysSet = DBObjectSet::FromScratch('Holiday'); // Build an empty set
+		}
+
+		if ($sCoverageOQL != '')
+		{
+			$oCoverageSet = new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
+		}
+		else
+		{
+			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
+		}
+		switch($oCoverageSet->Count())
+		{
+			case 0:
+			// No coverage window: 24x7 computation.. what about holidays ??
+			$iDuration = parent::GetOpenDuration($oTicket, $oStartDate, $oEndDate);			
+			break;
+			
+			case 1:
+			$oCoverage = $oCoverageSet->Fetch();
+			$iDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);		
+			break;
+			
+			default:
+			$iDuration = null;
+			// Several coverage windows found, use the one that gives the stricter deadline, thus the longer elasped duration
+			while($oCoverage = $oCoverageSet->Fetch())
+			{
+				$iTmpDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
+				// Retain the longer duration
+				if ( ($iDuration == null) || ($iTmpDuration > $iDuration))
+				{
+					$iDuration = $iTmpDuration;
+				}			
+			}
+		}
+		return $iDuration;
+	}
+	
+	/**
 	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
 	 * set of Holiday objects.
@@ -137,6 +195,85 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		$oDeadline = clone $oCurDate;
 		$oDeadline = $oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
 		return $oDeadline;		
+	}
+	
+	/**
+	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
+	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
+	 * set of Holiday objects.
+	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
+	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
+	 * @param $oStartDate DateTime The starting point for the computation (default = now)
+	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 */
+	public static function GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate)
+	{
+		$aHolidays2 = array();
+		while($oHoliday = $oHolidaysSet->Fetch())
+		{
+			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
+		}
+
+		$oCurDate = clone $oStartDate;
+		$iCurDuration = 0;
+		$idx = 0;
+		do
+		{
+			// Move forward by one interval and check if we reach the end date
+			$aInterval = self::GetNextInterval2($oCurDate, $aHolidays2, $oCoverage);
+			if ($aInterval != null)
+			{
+				if ($aInterval['start']->format('U') > $oEndDate->format('U'))
+				{
+					// Interval starts after the end of the period, finished
+					$oCurDate = clone $aInterval['start'];
+				}
+				else
+				{
+					if ($aInterval['start']->format('U') < $oStartDate->format('U'))
+					{
+						// First interval, starts before the specified period
+						$iStart = $oStartDate->format('U');
+					}
+					else
+					{
+						// Not the first interval, starts within the specified period
+						$iStart = $aInterval['start']->format('U');
+					}
+					if ($aInterval['end']->format('U') > $oEndDate->format('U'))
+					{
+						// Last interval, ends after the specified period
+						$iEnd = $oEndDate->format('U');
+					}
+					else
+					{
+						// Not the last interval, ends within the specified period
+						$iEnd = $aInterval['end']->format('U');
+					}
+//$sStart = date('Y-m-d H:i:s', $iStart);
+//$sEnd = date('Y-m-d H:i:s', $iEnd);
+//echo "<p>Adding: ".($iEnd - $iStart)." s [$sStart ; $sEnd]</p>";
+
+					$iCurDuration += $iEnd - $iStart;
+					$oCurDate = clone $aInterval['end'];
+				}
+			}
+			else
+			{
+					$oCurDate = clone $oEndDate;
+			}
+//echo "<p>\$idx: $idx \$oCurDate: ".($oCurDate->format('Y-m-d H:i:s'))."</p>";
+			$idx++;
+			
+			if ($idx == 20) break;
+		}
+		while( ($aInterval != null) && ($oCurDate->format('U') < $oEndDate->format('U')));
+//echo "<p>\$aInterval != null returned:".($aInterval != null)."</p>";
+//echo "<p>\$(\$oCurDate->format('U') < \$oEndDate->format('U') returned:".($oCurDate->format('U') < $oEndDate->format('U'))."</p>";
+		
+//echo "<p>TOTAL (open hours) duration: ".$iCurDuration." s [".$oStartDate->format('Y-m-d H:i:s')." ; ".$oEndDate->format('Y-m-d H:i:s')."]</p>";
+		return $iCurDuration;		
 	}
 
 	/////////////////////////////////////////////////////////////////////////////
