@@ -299,8 +299,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			
 			$iWeekDay = $oStart->format('w');
 			$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-			ModifyDate($oStart, $aData['start']);
-			ModifyDate($oEnd, $aData['end']);
+			self::ModifyDate($oStart, $aData['start']);
+			self::ModifyDate($oEnd, $aData['end']);
 		}
 
 		if ($oStartDate->format('U') >= $oEnd->format('U'))
@@ -326,8 +326,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 				$oEnd = clone $oStart;
 				$iWeekDay = $oStart->format('w');
 				$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-				ModifyDate($oStart, $aData['start']);
-				ModifyDate($oEnd, $aData['end']);
+				self::ModifyDate($oStart, $aData['start']);
+				self::ModifyDate($oEnd, $aData['end']);
 			}
 		}
 		return array('start' => $oStart, 'end' => $oEnd);
@@ -338,7 +338,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * @param $oDate DateTime The date to modify
 	 * @param $fHours number Number of hours to offset the date
 	 */
-	protected function ModifyDate(DateTime $oDate, $fHours)
+	protected static function ModifyDate(DateTime $oDate, $fHours)
 	{
 		$iStartHour = floor($fHours);
 		if ($iStartHour != $fHours)
