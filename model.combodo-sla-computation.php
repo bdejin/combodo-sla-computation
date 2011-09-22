@@ -282,7 +282,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	{
 		$oTZ = new DateTimeZone(date_default_timezone_get());
 		
-		$oStart = DateTime::createFromFormat('Y-m-d H:i:s', $oStartDate->format('Y-m-d').' 00:00:00');
+		$oStart = clone $oStartDate;
+		$oStart->SetTime(0, 0, 0);
 		$oStart->SetTimeZone($oTZ);
 		$oEnd = clone $oStart;
 		if (self::IsHoliday($oStart, $aHolidays))
@@ -306,7 +307,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		if ($oStartDate->format('U') >= $oEnd->format('U'))
 		{
 			// Next day
-			$oStart = DateTime::createFromFormat('Y-m-d H:i:s', $oStartDate->format('Y-m-d').' 00:00:00');
+			$oStart = clone $oStartDate;
+			$oStart->SetTime(0, 0, 0);
 			$oStart->modify('+1 day');
 			$oEnd = clone $oStart;
 			if (self::IsHoliday($oStart, $aHolidays))
@@ -321,7 +323,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 					return array('start' => $oStart, 'end' => $oEnd); // No coverage, means 24x7	
 				}
 				
-				$oStart = DateTime::createFromFormat('Y-m-d H:i:s', $oStartDate->format('Y-m-d').' 00:00:00');
+				$oStart = clone $oStartDate;
+				$oStart->SetTime(0, 0, 0);
 				$oStart->modify('+1 day');
 				$oEnd = clone $oStart;
 				$iWeekDay = $oStart->format('w');
