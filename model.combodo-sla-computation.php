@@ -174,7 +174,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			// Move forward by one interval and check if we meet the expected duration
 			$aInterval = self::GetNextInterval2($oCurDate, $aHolidays2, $oCoverage);
 			$idx++;
-			if ($idx == 20) break;
 			if ($aInterval != null)
 			{
 				$iIntervalDuration = $aInterval['end']->format('U') - $aInterval['start']->format('U'); // TODO: adjust for Daylight Saving Time change !
@@ -265,8 +264,6 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			}
 //echo "<p>\$idx: $idx \$oCurDate: ".($oCurDate->format('Y-m-d H:i:s'))."</p>";
 			$idx++;
-			
-			if ($idx == 20) break;
 		}
 		while( ($aInterval != null) && ($oCurDate->format('U') < $oEndDate->format('U')));
 //echo "<p>\$aInterval != null returned:".($aInterval != null)."</p>";
