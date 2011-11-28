@@ -390,7 +390,7 @@ class CoverageWindow extends cmdbAbstractObject
 	{
 		$aParams = array
 		(
-			"category" => "searchable,bizmodel",
+			"category" => "searchable,bizmodel,servicemgmt",
 			"key_type" => "autoincrement",
 			"name_attcode" => "name",
 			"state_attcode" => "",
@@ -444,7 +444,7 @@ class Holiday extends cmdbAbstractObject
 	{
 		$aParams = array
 		(
-			"category" => "searchable,bizmodel",
+			"category" => "searchable,bizmodel,servicemgmt",
 			"key_type" => "autoincrement",
 			"name_attcode" => "name",
 			"state_attcode" => "",
@@ -476,7 +476,7 @@ class HolidayCalendar extends cmdbAbstractObject
 	{
 		$aParams = array
 		(
-			"category" => "searchable,bizmodel",
+			"category" => "searchable,bizmodel,servicemgmt",
 			"key_type" => "autoincrement",
 			"name_attcode" => "name",
 			"state_attcode" => "",
