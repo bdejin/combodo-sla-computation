@@ -63,7 +63,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			case 0:
 			// No coverage window: 24x7 computation
 			$oDeadline = clone $oStartDate;
-			$oDeadline = $oDeadline->modify( '+'.$iDuration.' seconds');			
+			$oDeadline->modify( '+'.$iDuration.' seconds');			
 			break;
 			
 			case 1:
@@ -192,7 +192,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		while( ($iIntervalDuration !== null) && ($iDuration > $iCurDuration) );
 		
 		$oDeadline = clone $oCurDate;
-		$oDeadline = $oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
+		$oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
 		return $oDeadline;		
 	}
 	
