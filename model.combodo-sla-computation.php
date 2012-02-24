@@ -388,7 +388,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		}
 		
 		// compute today's limits for the coverage
-		$aData = self::GetOpenHours($oCoverage, $oDate->format('w'));
+		$aData = self::GetOpenHours($oCoverage, $oCurDate->format('w'));
 		$oStart = clone $oCurDate;
 		$oStart->SetTime(0, 0, 0);
 		$oEnd = clone $oStart;
