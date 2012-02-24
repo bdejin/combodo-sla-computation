@@ -374,6 +374,35 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		}
 	}
 	
+	public static function IsInsideCoverage($oCurDate, $oCoverage, $oHolidaysSet =null)
+	{
+		if ($oHolidaysSet != null)
+		{
+			$aHolidays = array();
+			while($oHoliday = $oHolidaysSet->Fetch())
+			{
+				$aHolidays[$oHoliday->Get('date')] = $oHoliday->Get('date');
+			}
+			// Today's holiday! Not considered inside the coverage
+			if (self::IsHoliday($oCurDate, $aHolidays)) return false;
+		}
+		
+		// compute today's limits for the coverage
+		$aData = self::GetOpenHours($oCoverage, $oDate->format('w'));
+		$oStart = clone $oCurDate;
+		$oStart->SetTime(0, 0, 0);
+		$oEnd = clone $oStart;
+		self::ModifyDate($oStart, $aData['start']);
+		self::ModifyDate($oEnd, $aData['end']);
+		
+		// Check if the given date is inside the limits
+		$iCurDate = $oCurDate->format('U');
+		if( ($iCurDate > $oStart->format('U')) && ($iCurDate <= $oEnd->format('U')) ) return true;
+		
+		// Outside of the coverage
+		return false;
+	}
+	
 	protected static function DumpInterval($oStart, $oEnd)
 	{
 		$iDuration = $oEnd->format('U') - $oStart->format('U');
