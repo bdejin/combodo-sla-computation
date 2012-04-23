@@ -55,7 +55,7 @@ SetupWebPage::AddModule(
 		//
 		'settings' => array(
 			'coverage_oql' => 'SELECT CoverageWindow', 	// How to retrive the Coverage object for a given ticket (:this)
-			'holiday_oql' => 'SELECT Holiday', 	// How to retrive the list of Holidays for a given ticket (:this)
+			'holidays_oql' => 'SELECT Holiday', 	// How to retrive the list of Holidays for a given ticket (:this)
 		),
 	)
 );
