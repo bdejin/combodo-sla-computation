@@ -491,6 +491,7 @@ class Holiday extends cmdbAbstractObject
 		MetaModel::Init_AddAttribute(new AttributeString("name", array("allowed_values"=>null, "sql"=>"name", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 		MetaModel::Init_AddAttribute(new AttributeDate("date", array("allowed_values"=>null, "sql"=>"date", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 		MetaModel::Init_AddAttribute(new AttributeExternalKey("calendar_id", array("targetclass"=>"HolidayCalendar", "jointype"=>null, "allowed_values"=>new ValueSetObjects("SELECT HolidayCalendar"), "sql"=>"calendar_id", "is_null_allowed"=>true, "on_target_delete"=>DEL_AUTO, "depends_on"=>array())));
+		MetaModel::Init_AddAttribute(new AttributeExternalField("calendar_name", array("allowed_values"=>null, "extkey_attcode"=>"calendar_id", "target_attcode"=>"name", "is_null_allowed"=>true, "depends_on"=>array())));
 
 		MetaModel::Init_SetZListItems('details', array('name','date','calendar_id'));
 		MetaModel::Init_SetZListItems('standard_search', array('name','date', 'calendar_id'));
