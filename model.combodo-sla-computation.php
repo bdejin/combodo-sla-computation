@@ -277,11 +277,16 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		
 	protected static function GetNextInterval2($oStartDate, $aHolidays, $oCoverage)
 	{
-		$oTZ = new DateTimeZone(date_default_timezone_get());
-		
 		$oStart = clone $oStartDate;
+
+		$sPHPTimezone = MetaModel::GetConfig()->Get('timezone');
+		if ($sPHPTimezone != '')
+		{
+			$oTZ = new DateTimeZone($sPHPTimezone);
+			$oStart->SetTimeZone($oTZ);
+		}
 		$oStart->SetTime(0, 0, 0);
-		$oStart->SetTimeZone($oTZ);
+		
 		$oEnd = clone $oStart;
 		if (self::IsHoliday($oStart, $aHolidays))
 		{
