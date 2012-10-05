@@ -310,6 +310,11 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			// Next day
 			$oStart = clone $oStartDate;
+			if ($sPHPTimezone != '')
+			{
+				$oTZ = new DateTimeZone($sPHPTimezone);
+				$oStart->SetTimeZone($oTZ);
+			}
 			$oStart->SetTime(0, 0, 0);
 			$oStart->modify('+1 day');
 			$oEnd = clone $oStart;
@@ -326,6 +331,11 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 				}
 				
 				$oStart = clone $oStartDate;
+				if ($sPHPTimezone != '')
+				{
+					$oTZ = new DateTimeZone($sPHPTimezone);
+					$oStart->SetTimeZone($oTZ);
+				}
 				$oStart->SetTime(0, 0, 0);
 				$oStart->modify('+1 day');
 				$oEnd = clone $oStart;
@@ -395,6 +405,12 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		// compute today's limits for the coverage
 		$aData = self::GetOpenHours($oCoverage, $oCurDate->format('w'));
 		$oStart = clone $oCurDate;
+		$sPHPTimezone = MetaModel::GetConfig()->Get('timezone');
+		if ($sPHPTimezone != '')
+		{
+			$oTZ = new DateTimeZone($sPHPTimezone);
+			$oStart->SetTimeZone($oTZ);
+		}
 		$oStart->SetTime(0, 0, 0);
 		$oEnd = clone $oStart;
 		self::ModifyDate($oStart, $aData['start']);
