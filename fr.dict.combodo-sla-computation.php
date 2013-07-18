@@ -72,7 +72,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Jours Fériés',
 	'Menu:Holidays+' => 'Tous les Jours Fériés',
-	'Class:Holiday' => 'Jours Férié',
+	'Class:Holiday' => 'Jour Férié',
 	'Class:Holiday+' => 'Un jour non travaillé',
 	'Class:Holiday/Attribute:name' => 'Nom',
 	'Class:Holiday/Attribute:date' => 'Date',
