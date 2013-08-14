@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2010 Combodo SARL
+// Copyright (C) 2010-2013 Combodo SARL
 //
 
 
@@ -368,8 +368,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	{
 		$sDayName = self::$m_aWeekDayNames[$iDayIndex];
 		return array(
-			'start' => $oCoverage->Get($sDayName.'_start'),
-			'end' => $oCoverage->Get($sDayName.'_end')
+			'start' => $oCoverage->GetAsDecimal($sDayName.'_start'),
+			'end' => $oCoverage->GetAsDecimal($sDayName.'_end')
 		);
 	}
 	
@@ -431,6 +431,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 }
 
+define('COVERAGE_TIME_REGEXP', '^[0-2][0-9]:[0-5][0-9]$');
+
 /**
  * Open hours definition: start time and end time for each day of the week
  */
@@ -456,20 +458,20 @@ class CoverageWindow extends cmdbAbstractObject
 		// TODO: use a "Time" object to ease the user input and prevent mistakes !
 		MetaModel::Init_AddAttribute(new AttributeString("name", array("allowed_values"=>null, "sql"=>"name", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
 		MetaModel::Init_AddAttribute(new AttributeText("description", array("allowed_values"=>null, "sql"=>"description", "default_value"=>"", "is_null_allowed"=>true, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("monday_start", array("allowed_values"=>null, "sql"=>"monday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("monday_end", array("allowed_values"=>null, "sql"=>"monday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("tuesday_start", array("allowed_values"=>null, "sql"=>"tuesday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("tuesday_end", array("allowed_values"=>null, "sql"=>"tuesday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("wednesday_start", array("allowed_values"=>null, "sql"=>"wendnesday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("wednesday_end", array("allowed_values"=>null, "sql"=>"wednesday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("thursday_start", array("allowed_values"=>null, "sql"=>"thursday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("thursday_end", array("allowed_values"=>null, "sql"=>"thursday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("friday_start", array("allowed_values"=>null, "sql"=>"friday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("friday_end", array("allowed_values"=>null, "sql"=>"friday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("saturday_start", array("allowed_values"=>null, "sql"=>"saturday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("saturday_end", array("allowed_values"=>null, "sql"=>"saturday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("sunday_start", array("allowed_values"=>null, "sql"=>"sunday_start", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
-		MetaModel::Init_AddAttribute(new AttributeString("sunday_end", array("allowed_values"=>null, "sql"=>"sunday_end", "default_value"=>"", "is_null_allowed"=>false, "depends_on"=>array())));
+		MetaModel::Init_AddAttribute(new AttributeString("monday_start", array("allowed_values"=>null, "sql"=>"monday_start", "default_value"=>"09:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("monday_end", array("allowed_values"=>null, "sql"=>"monday_end", "default_value"=>"18:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("tuesday_start", array("allowed_values"=>null, "sql"=>"tuesday_start", "default_value"=>"09:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("tuesday_end", array("allowed_values"=>null, "sql"=>"tuesday_end", "default_value"=>"18:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("wednesday_start", array("allowed_values"=>null, "sql"=>"wendnesday_start", "default_value"=>"09:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("wednesday_end", array("allowed_values"=>null, "sql"=>"wednesday_end", "default_value"=>"18:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("thursday_start", array("allowed_values"=>null, "sql"=>"thursday_start", "default_value"=>"09:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("thursday_end", array("allowed_values"=>null, "sql"=>"thursday_end", "default_value"=>"18:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("friday_start", array("allowed_values"=>null, "sql"=>"friday_start", "default_value"=>"09:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("friday_end", array("allowed_values"=>null, "sql"=>"friday_end", "default_value"=>"18:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("saturday_start", array("allowed_values"=>null, "sql"=>"saturday_start", "default_value"=>"00:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("saturday_end", array("allowed_values"=>null, "sql"=>"saturday_end", "default_value"=>"00:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("sunday_start", array("allowed_values"=>null, "sql"=>"sunday_start", "default_value"=>"00:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
+		MetaModel::Init_AddAttribute(new AttributeString("sunday_end", array("allowed_values"=>null, "sql"=>"sunday_end", "default_value"=>"00:00", "is_null_allowed"=>false, "depends_on"=>array(), "validation_pattern" => COVERAGE_TIME_REGEXP)));
 
 		MetaModel::Init_SetZListItems('details', array(
 				'col:col1' => array(
@@ -484,6 +486,48 @@ class CoverageWindow extends cmdbAbstractObject
 		));
 		MetaModel::Init_SetZListItems('standard_search', array('name',));
 		MetaModel::Init_SetZListItems('list', array());
+	}
+
+	/**
+	 * Convert the old format (decimal) to the new mandatory format NN:NN	
+	 */
+	public function Get($sAttCode)
+	{
+		static $sAttToConvert = '|monday_start|monday_end|tuesday_start|tuesday_end|wednesday_start|wednesday_end|thursday_start|thursday_end|friday_start|friday_end|saturday_start|saturday_end|sunday_start|sunday_end|';
+
+		$sValue = parent::Get($sAttCode);
+		if (strstr($sAttToConvert, $sAttCode) !== false)
+		{
+			// The requested attribute is one of the conversion candidates
+			if (!preg_match('/'.COVERAGE_TIME_REGEXP.'/', $sValue))
+			{
+				// The format does not match the new convention
+				// => Convert the decimal value into "hh:mm"
+				$fTime = (float) $sValue;
+				if ($sValue != '')
+				{
+					$iHour = floor($fTime);
+					$iMin = floor(60 * ($fTime - $iHour));
+					$oDummy = new DateTime();
+					$oDummy->setTime($iHour, $iMin, 0);
+					$sValue = $oDummy->format('H:i');
+					$this->Set($sAttCode, $sValue); // so that it gets recorded
+				}
+			}
+		}
+		return $sValue;
+	}
+
+	/**
+	 * Whatever the format in DB, Get as a decimal value	
+	 */
+	public function GetAsDecimal($sAttCode)
+	{
+		$sTime = $this->Get($sAttCode);
+		$iHour = (int) substr($sTime, 0, 2);
+		$iMin = (int) substr($sTime, -2);
+		$fTime = (float) $iHour + $iMin / 60;
+		return $fTime;
 	}
 }
 
