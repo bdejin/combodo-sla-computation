@@ -26,7 +26,8 @@ SetupWebPage::AddModule(
 		// Setup
 		//
 		'dependencies' => array(
-			'itop-sla-computation/1.0.0'
+			'itop-sla-computation/1.0.0',
+			'itop-service-mgmt/2.0.0||itop-service-mgmt-provider/2.0.0', // Needed to place new menu entries
 		),
 		'mandatory' => true,
 		'visible' => false,
@@ -34,7 +35,8 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.combodo-sla-computation.php'
+			'model.combodo-sla-computation.php',
+			'main.combodo-sla-computation.php'
 		),
 		'webservice' => array(
 			
