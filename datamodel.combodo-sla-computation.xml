@@ -6,6 +6,10 @@
   <classes>
     <class id="CoverageWindow" _delta="define">
       <parent>cmdbAbstractObject</parent>
+      <php_parent>
+		  <name>_CoverageWindow_</name>
+		  <file>coveragewindow.class.inc.php</file>
+	   </php_parent>
       <properties>
         <comment>/**
  * Open hours definition: start time and end time for each day of the week
@@ -127,65 +131,6 @@
         </field>
       </fields>
       <methods>
-        <method id="Get">
-          <comment>/**
-	 * Convert the old format (decimal) to the new mandatory format NN:NN	
-	 */</comment>
-          <static>false</static>
-          <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function Get($sAttCode)
-	{
-		static $sAttToConvert = '|monday_start|monday_end|tuesday_start|tuesday_end|wednesday_start|wednesday_end|thursday_start|thursday_end|friday_start|friday_end|saturday_start|saturday_end|sunday_start|sunday_end|';
-
-		$sValue = parent::Get($sAttCode);
-		if (strstr($sAttToConvert, $sAttCode) !== false)
-		{
-			// The requested attribute is one of the conversion candidates
-			if (!preg_match('/'.COVERAGE_TIME_REGEXP.'/', $sValue))
-			{
-				// The format does not match the new convention
-				// => Convert the decimal value into "hh:mm"
-				$fTime = (float) $sValue;
-				if ($sValue != '')
-				{
-					$iHour = floor($fTime);
-					$iMin = floor(60 * ($fTime - $iHour));
-					if ($iHour > 23)
-					{
-						$sValue = '24:00';
-					}
-					else
-					{
-						$sValue = sprintf('%02d:%02d', $iHour, $iMin);
-					}
-				}
-				else
-				{
-					$sValue = '00:00';
-				}
-				$this->Set($sAttCode, $sValue); // so that it gets recorded
-			}
-		}
-		return $sValue;
-	}]]></code>
-        </method>
-        <method id="GetAsDecimal">
-          <comment>/**
-	 * Whatever the format in DB, Get as a decimal value	
-	 */</comment>
-          <static>false</static>
-          <access>public</access>
-          <type>Overload-DBObject</type>
-          <code><![CDATA[	public function GetAsDecimal($sAttCode)
-	{
-		$sTime = $this->Get($sAttCode);
-		$iHour = (int) substr($sTime, 0, 2);
-		$iMin = (int) substr($sTime, -2);
-		$fTime = (float) $iHour + $iMin / 60;
-		return $fTime;
-	}]]></code>
-        </method>
       </methods>
       <presentation>
         <details>

@@ -19,7 +19,6 @@
  */
 class EnhancedSLAComputation extends SLAComputationAddOnAPI
 {
-	static protected $m_aWeekDayNames = array(0 => 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
 	/**
 	 * Called when the module is loaded, used for one time initialization (if needed)
 	 */
@@ -160,42 +159,19 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetDeadlineFromCoverage(CoverageWindow $oCoverage, DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
-		$aHolidays2 = array();
-		while($oHoliday = $oHolidaysSet->Fetch())
+		if (is_null($oCoverage))
 		{
-			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
+			// 24x7
+			$oDeadline = clone $oStartDate;
+			$oDeadline->modify( '+'.$iDuration.' seconds');
 		}
-
-		$oCurDate = clone $oStartDate;
-		$iCurDuration = 0;
-		$idx = 0;
-		do
-		{
-			// Move forward by one interval and check if we meet the expected duration
-			$aInterval = self::GetNextInterval2($oCurDate, $aHolidays2, $oCoverage);
-			$idx++;
-			if ($aInterval != null)
-			{
-				$iIntervalDuration = $aInterval['end']->format('U') - $aInterval['start']->format('U'); // TODO: adjust for Daylight Saving Time change !
-				if ($oStartDate > $aInterval['start'])
-				{
-					$iIntervalDuration = $iIntervalDuration - ($oStartDate->format('U') - $aInterval['start']->format('U')); // TODO: adjust for Daylight Saving Time change !
-				}
-				$iCurDuration += $iIntervalDuration;
-				$oCurDate = $aInterval['end'];
-			}
-			else
-			{
-				$iIntervalDuration = null; // No more interval, means that the interval extends infinitely... (i.e 24*7)
-			}
+		else
+		{			
+			$oDeadline = $oCoverage->GetDeadline($oHolidaysSet, $iDuration, $oStartDate);
 		}
-		while( ($iIntervalDuration !== null) && ($iDuration > $iCurDuration) );
-		
-		$oDeadline = clone $oCurDate;
-		$oDeadline->modify( '+'.($iDuration - $iCurDuration).' seconds');			
-		return $oDeadline;		
+		return $oDeadline;
 	}
-	
+
 	/**
 	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
@@ -208,222 +184,30 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate)
 	{
-		$aHolidays2 = array();
-		while($oHoliday = $oHolidaysSet->Fetch())
+		if (is_null($oCoverage))
 		{
-			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
-		}
-
-		$oCurDate = clone $oStartDate;
-		$iCurDuration = 0;
-		$idx = 0;
-		do
-		{
-			// Move forward by one interval and check if we reach the end date
-			$aInterval = self::GetNextInterval2($oCurDate, $aHolidays2, $oCoverage);
-			if ($aInterval != null)
-			{
-				if ($aInterval['start']->format('U') > $oEndDate->format('U'))
-				{
-					// Interval starts after the end of the period, finished
-					$oCurDate = clone $aInterval['start'];
-				}
-				else
-				{
-					if ($aInterval['start']->format('U') < $oStartDate->format('U'))
-					{
-						// First interval, starts before the specified period
-						$iStart = $oStartDate->format('U');
-					}
-					else
-					{
-						// Not the first interval, starts within the specified period
-						$iStart = $aInterval['start']->format('U');
-					}
-					if ($aInterval['end']->format('U') > $oEndDate->format('U'))
-					{
-						// Last interval, ends after the specified period
-						$iEnd = $oEndDate->format('U');
-					}
-					else
-					{
-						// Not the last interval, ends within the specified period
-						$iEnd = $aInterval['end']->format('U');
-					}
-//$sStart = date('Y-m-d H:i:s', $iStart);
-//$sEnd = date('Y-m-d H:i:s', $iEnd);
-//echo "<p>Adding: ".($iEnd - $iStart)." s [$sStart ; $sEnd]</p>";
-
-					$iCurDuration += $iEnd - $iStart;
-					$oCurDate = clone $aInterval['end'];
-				}
-			}
-			else
-			{
-					$oCurDate = clone $oEndDate;
-			}
-//echo "<p>\$idx: $idx \$oCurDate: ".($oCurDate->format('Y-m-d H:i:s'))."</p>";
-			$idx++;
-		}
-		while( ($aInterval != null) && ($oCurDate->format('U') < $oEndDate->format('U')));
-//echo "<p>\$aInterval != null returned:".($aInterval != null)."</p>";
-//echo "<p>\$(\$oCurDate->format('U') < \$oEndDate->format('U') returned:".($oCurDate->format('U') < $oEndDate->format('U'))."</p>";
-		
-//echo "<p>TOTAL (open hours) duration: ".$iCurDuration." s [".$oStartDate->format('Y-m-d H:i:s')." ; ".$oEndDate->format('Y-m-d H:i:s')."]</p>";
-		return $iCurDuration;		
-	}
-
-	/////////////////////////////////////////////////////////////////////////////
-		
-	protected static function GetNextInterval2($oStartDate, $aHolidays, $oCoverage)
-	{
-		$oStart = clone $oStartDate;
-
-		$sPHPTimezone = MetaModel::GetConfig()->Get('timezone');
-		if ($sPHPTimezone != '')
-		{
-			$oTZ = new DateTimeZone($sPHPTimezone);
-			$oStart->SetTimeZone($oTZ);
-		}
-		$oStart->SetTime(0, 0, 0);
-		
-		$oEnd = clone $oStart;
-		if (self::IsHoliday($oStart, $aHolidays))
-		{
-			// do nothing, start = end: the interval is of no duration... will be skipped
+			// 24x7
+			return abs($oEndDate->format('U') - $oStartDate->format('U'));
 		}
 		else
-		{
-			if ($oCoverage == null)
-			{
-				$oEnd->modify('+ 1 day');
-				return array('start' => $oStart, 'end' => $oEnd); // No coverage, means 24x7	
-			}
-			
-			$iWeekDay = $oStart->format('w');
-			$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-			self::ModifyDate($oStart, $aData['start']);
-			self::ModifyDate($oEnd, $aData['end']);
+		{			
+			return $oCoverage->GetOpenDuration($oHolidaysSet, $oStartDate, $oEndDate);
 		}
+	}
 
-		if ($oStartDate->format('U') >= $oEnd->format('U'))
-		{
-			// Next day
-			$oStart = clone $oStartDate;
-			if ($sPHPTimezone != '')
-			{
-				$oTZ = new DateTimeZone($sPHPTimezone);
-				$oStart->SetTimeZone($oTZ);
-			}
-			$oStart->SetTime(0, 0, 0);
-			$oStart->modify('+1 day');
-			$oEnd = clone $oStart;
-			if (self::IsHoliday($oStart, $aHolidays))
-			{
-				// do nothing, start = end: the interval is of no duration... will be skipped
-			}
-			else
-			{
-				if ($oCoverage == null)
-				{
-					$oEnd->modify('+ 1 day');
-					return array('start' => $oStart, 'end' => $oEnd); // No coverage, means 24x7	
-				}
-				
-				$oStart = clone $oStartDate;
-				if ($sPHPTimezone != '')
-				{
-					$oTZ = new DateTimeZone($sPHPTimezone);
-					$oStart->SetTimeZone($oTZ);
-				}
-				$oStart->SetTime(0, 0, 0);
-				$oStart->modify('+1 day');
-				$oEnd = clone $oStart;
-				$iWeekDay = $oStart->format('w');
-				$aData = self::GetOpenHours($oCoverage, $iWeekDay);
-				self::ModifyDate($oStart, $aData['start']);
-				self::ModifyDate($oEnd, $aData['end']);
-			}
-		}
-		return array('start' => $oStart, 'end' => $oEnd);
-	}
-	
-	/**
-	 * Modify a date by a (floating point) number of hours (e.g. 11.5 hours for 11 hours and 30 minutes)
-	 * @param $oDate DateTime The date to modify
-	 * @param $fHours number Number of hours to offset the date
-	 */
-	protected static function ModifyDate(DateTime $oDate, $fHours)
+	public static function IsInsideCoverage($oCurDate, $oCoverage, $oHolidaysSet = null)
 	{
-		$iStartHour = floor($fHours);
-		if ($iStartHour != $fHours)
+		if (is_null($oCoverage))
 		{
-			$iStartMinutes = floor(($fHours - $iStartHour)*60);
-			$oDate->modify("+ $iStartMinutes minutes");
-		}
-		$oDate->modify("+ $iStartHour hours");
-	}
-	
-	protected static function GetOpenHours($oCoverage, $iDayIndex)
-	{
-		$sDayName = self::$m_aWeekDayNames[$iDayIndex];
-		return array(
-			'start' => $oCoverage->GetAsDecimal($sDayName.'_start'),
-			'end' => $oCoverage->GetAsDecimal($sDayName.'_end')
-		);
-	}
-	
-	protected static function IsHoliday($oDate, $aHolidays)
-	{
-		$sDate = $oDate->format('Y-m-d');
-		
-		if (isset($aHolidays[$sDate]))
-		{
-			// Holiday found in the calendar
+			// 24x7
 			return true;
 		}
 		else
 		{
-			// No such holiday in the calendar
-			return false;
+			return $oCoverage->IsInsideCoverage($oCurDate, $oHolidaysSet);
 		}
 	}
-	
-	public static function IsInsideCoverage($oCurDate, $oCoverage, $oHolidaysSet =null)
-	{
-		if ($oHolidaysSet != null)
-		{
-			$aHolidays = array();
-			while($oHoliday = $oHolidaysSet->Fetch())
-			{
-				$aHolidays[$oHoliday->Get('date')] = $oHoliday->Get('date');
-			}
-			// Today's holiday! Not considered inside the coverage
-			if (self::IsHoliday($oCurDate, $aHolidays)) return false;
-		}
-		
-		// compute today's limits for the coverage
-		$aData = self::GetOpenHours($oCoverage, $oCurDate->format('w'));
-		$oStart = clone $oCurDate;
-		$sPHPTimezone = MetaModel::GetConfig()->Get('timezone');
-		if ($sPHPTimezone != '')
-		{
-			$oTZ = new DateTimeZone($sPHPTimezone);
-			$oStart->SetTimeZone($oTZ);
-		}
-		$oStart->SetTime(0, 0, 0);
-		$oEnd = clone $oStart;
-		self::ModifyDate($oStart, $aData['start']);
-		self::ModifyDate($oEnd, $aData['end']);
-		
-		// Check if the given date is inside the limits
-		$iCurDate = $oCurDate->format('U');
-		if( ($iCurDate > $oStart->format('U')) && ($iCurDate <= $oEnd->format('U')) ) return true;
-		
-		// Outside of the coverage
-		return false;
-	}
-	
+
 	protected static function DumpInterval($oStart, $oEnd)
 	{
 		$iDuration = $oEnd->format('U') - $oStart->format('U');
