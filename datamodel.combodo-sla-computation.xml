@@ -27,7 +27,7 @@
           </attributes>
         </naming>
         <display_template></display_template>
-        <icon>../env-production/combodo-sla-computation/images/coverage-window.png</icon>
+        <icon>images/coverage-window.png</icon>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
@@ -240,7 +240,7 @@
           </attributes>
         </naming>
         <display_template></display_template>
-        <icon>../env-production/combodo-sla-computation/images/holiday.png</icon>
+        <icon>images/holiday.png</icon>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
@@ -329,7 +329,7 @@
           </attributes>
         </naming>
         <display_template></display_template>
-        <icon>../env-production/combodo-sla-computation/images/calendar.png</icon>
+        <icon>images/calendar.png</icon>
         <reconciliation>
           <attributes>
             <attribute id="name"/>
