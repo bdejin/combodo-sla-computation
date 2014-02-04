@@ -391,4 +391,28 @@
       <do_search>1</do_search>
     </menu>
   </menus>
+  <user_rights>
+    <groups>
+      <group id="CoverageWindowsEtc" _delta="define">
+        <classes>
+          <class id="CoverageWindow"/>
+          <class id="HolidayCalendar"/>
+          <class id="Holiday"/>
+        </classes>
+      </group>
+    </groups>
+    <profiles>
+      <profile id="10">
+        <groups>
+          <group id="CoverageWindowsEtc" _delta="define">
+            <actions>
+              <action xsi:type="write">allow</action>
+              <action xsi:type="bulk write">allow</action>
+              <action xsi:type="delete">allow</action>
+            </actions>
+          </group>
+        </groups>
+      </profile>
+    </profiles>
+  </user_rights>
 </itop_design>
