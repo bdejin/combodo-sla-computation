@@ -45,89 +45,13 @@
           <default_value></default_value>
           <is_null_allowed>true</is_null_allowed>
         </field>
-        <field id="monday_start" xsi:type="AttributeString">
-          <sql>monday_start</sql>
-          <default_value>09:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="monday_end" xsi:type="AttributeString">
-          <sql>monday_end</sql>
-          <default_value>18:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="tuesday_start" xsi:type="AttributeString">
-          <sql>tuesday_start</sql>
-          <default_value>09:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="tuesday_end" xsi:type="AttributeString">
-          <sql>tuesday_end</sql>
-          <default_value>18:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="wednesday_start" xsi:type="AttributeString">
-          <sql>wendnesday_start</sql>
-          <default_value>09:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="wednesday_end" xsi:type="AttributeString">
-          <sql>wednesday_end</sql>
-          <default_value>18:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="thursday_start" xsi:type="AttributeString">
-          <sql>thursday_start</sql>
-          <default_value>09:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="thursday_end" xsi:type="AttributeString">
-          <sql>thursday_end</sql>
-          <default_value>18:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="friday_start" xsi:type="AttributeString">
-          <sql>friday_start</sql>
-          <default_value>09:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="friday_end" xsi:type="AttributeString">
-          <sql>friday_end</sql>
-          <default_value>18:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="saturday_start" xsi:type="AttributeString">
-          <sql>saturday_start</sql>
-          <default_value>00:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="saturday_end" xsi:type="AttributeString">
-          <sql>saturday_end</sql>
-          <default_value>00:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="sunday_start" xsi:type="AttributeString">
-          <sql>sunday_start</sql>
-          <default_value>00:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
-        </field>
-        <field id="sunday_end" xsi:type="AttributeString">
-          <sql>sunday_end</sql>
-          <default_value>00:00</default_value>
-          <is_null_allowed>false</is_null_allowed>
-          <validation_pattern>^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$|^24:00$</validation_pattern>
+        <field id="interval_list" xsi:type="AttributeLinkedSet">
+          <linked_class>CoverageWindowInterval</linked_class>
+          <ext_key_to_me>coverage_window_id</ext_key_to_me>
+          <count_min>0</count_min>
+          <count_max>0</count_max>
+          <tracking_level>all</tracking_level>
+          <edit_mode>in_place</edit_mode>
         </field>
       </fields>
       <methods>
@@ -135,83 +59,14 @@
       <presentation>
         <details>
           <items>
-            <item id="col:col1">
+            <item id="name">
               <rank>10</rank>
-              <items>
-                <item id="fieldset:Coverage:Description">
-                  <rank>10</rank>
-                  <items>
-                    <item id="name">
-                      <rank>10</rank>
-                    </item>
-                    <item id="description">
-                      <rank>20</rank>
-                    </item>
-                  </items>
-                </item>
-              </items>
             </item>
-            <item id="col:col2">
+            <item id="description">
               <rank>20</rank>
-              <items>
-                <item id="fieldset:Coverage:StartTime">
-                  <rank>10</rank>
-                  <items>
-                    <item id="monday_start">
-                      <rank>10</rank>
-                    </item>
-                    <item id="tuesday_start">
-                      <rank>20</rank>
-                    </item>
-                    <item id="wednesday_start">
-                      <rank>30</rank>
-                    </item>
-                    <item id="thursday_start">
-                      <rank>40</rank>
-                    </item>
-                    <item id="friday_start">
-                      <rank>50</rank>
-                    </item>
-                    <item id="saturday_start">
-                      <rank>60</rank>
-                    </item>
-                    <item id="sunday_start">
-                      <rank>70</rank>
-                    </item>
-                  </items>
-                </item>
-              </items>
             </item>
-            <item id="col:col3">
+            <item id="interval_list">
               <rank>30</rank>
-              <items>
-                <item id="fieldset:Coverage:EndTime">
-                  <rank>10</rank>
-                  <items>
-                    <item id="monday_end">
-                      <rank>10</rank>
-                    </item>
-                    <item id="tuesday_end">
-                      <rank>20</rank>
-                    </item>
-                    <item id="wednesday_end">
-                      <rank>30</rank>
-                    </item>
-                    <item id="thursday_end">
-                      <rank>40</rank>
-                    </item>
-                    <item id="friday_end">
-                      <rank>50</rank>
-                    </item>
-                    <item id="saturday_end">
-                      <rank>60</rank>
-                    </item>
-                    <item id="sunday_end">
-                      <rank>70</rank>
-                    </item>
-                  </items>
-                </item>
-              </items>
             </item>
           </items>
         </details>
@@ -220,8 +75,136 @@
             <item id="name">
               <rank>10</rank>
             </item>
+            <item id="description">
+              <rank>20</rank>
+            </item>
           </items>
         </search>
+        <list>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+            <item id="description">
+              <rank>20</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
+    <class id="CoverageWindowInterval" _delta="define">
+      <parent>cmdbAbstractObject</parent>
+      <properties>
+        <comment>/**
+ * Interval of open hours for a given day of the week
+ */</comment>
+        <category>searchable,bizmodel,servicemgmt</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>coverage_windows_interval</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field></db_final_class_field>
+        <naming>
+          <format>%1$s - %2$s: %3$s</format>
+          <attributes>
+            <attribute id="coverage_window_name"/>
+            <attribute id="weekday"/>
+            <attribute id="start_time"/>
+          </attributes>
+        </naming>
+        <display_template></display_template>
+        <icon>images/coverage-window.png</icon>
+        <reconciliation>
+          <attributes>
+            <attribute id="coverage_window_id"/>
+            <attribute id="weekday"/>
+            <attribute id="start_time"/>
+          </attributes>
+        </reconciliation>
+      </properties>
+      <fields>
+        <field id="coverage_window_id" xsi:type="AttributeExternalKey">
+          <filter>SELECT CoverageWindow</filter>
+          <sql>coverage_window_id</sql>
+          <target_class>CoverageWindow</target_class>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+          <is_null_allowed>false</is_null_allowed>
+          <tracking_level>none</tracking_level>
+        </field>
+        <field id="coverage_window_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>coverage_window_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="weekday" xsi:type="AttributeEnum">
+          <sql>weekday</sql>
+          <values>
+            <value>monday</value>
+            <value>tuesday</value>
+            <value>wednesday</value>
+            <value>thrusday</value>
+            <value>friday</value>
+            <value>saturday</value>
+            <value>sunday</value>
+          </values>
+          <default_value>monday</default_value>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+        <field id="start_time" xsi:type="AttributeString">
+          <sql>start_time</sql>
+          <validation_pattern>^(([01]?[0-9]|2[0-3]):[0-5][0-9])|24:00$</validation_pattern>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+        <field id="end_time" xsi:type="AttributeString">
+          <sql>end_time</sql>
+          <validation_pattern>^(([01]?[0-9]|2[0-3]):[0-5][0-9])|24:00$</validation_pattern>
+          <is_null_allowed>false</is_null_allowed>
+        </field>
+      </fields>
+      <methods>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="coverage_window_id">
+              <rank>10</rank>
+            </item>
+            <item id="weekday">
+              <rank>20</rank>
+            </item>
+            <item id="start_time">
+              <rank>30</rank>
+            </item>
+            <item id="end_time">
+              <rank>40</rank>
+            </item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="coverage_window_id">
+              <rank>10</rank>
+            </item>
+             <item id="weekday">
+              <rank>20</rank>
+            </item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="coverage_window_id">
+              <rank>10</rank>
+            </item>
+            <item id="weekday">
+              <rank>20</rank>
+            </item>
+            <item id="start_time">
+              <rank>30</rank>
+            </item>
+            <item id="end_time">
+              <rank>40</rank>
+            </item>
+          </items>
+        </list>
       </presentation>
     </class>
     <class id="Holiday" _delta="define">
