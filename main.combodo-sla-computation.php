@@ -36,6 +36,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetDeadline($oTicket, $iDuration, DateTime $oStartDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
 		$oCoverage = null;
 
@@ -60,6 +64,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		switch($oCoverageSet->Count())
 		{
 			case 0:
+			if (class_exists('WorkingTimeRecorder'))
+			{
+				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
+			}
 			// No coverage window: 24x7 computation
 			$oDeadline = clone $oStartDate;
 			$oDeadline->modify( '+'.$iDuration.' seconds');			
@@ -71,6 +79,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			break;
 			
 			default:
+			if (class_exists('WorkingTimeRecorder'))
+			{
+				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'Several coverage windows: use the one that gives the stricter deadline');
+			}
 			$oDeadline = null;
 			// Several coverage windows found, use the one that gives the stricter deadline
 			while($oCoverage = $oCoverageSet->Fetch())
@@ -98,6 +110,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetOpenDuration($oTicket, DateTime $oStartDate, DateTime $oEndDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
 		$oCoverage = null;
 
@@ -122,6 +138,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		switch($oCoverageSet->Count())
 		{
 			case 0:
+			if (class_exists('WorkingTimeRecorder'))
+			{
+				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
+			}
 			// No coverage window: 24x7 computation.. what about holidays ??
 			$iDuration = parent::GetOpenDuration($oTicket, $oStartDate, $oEndDate);			
 			break;
@@ -132,6 +152,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			break;
 			
 			default:
+			if (class_exists('WorkingTimeRecorder'))
+			{
+				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'Several coverage windows: use the one that gives the stricter deadline, thus the longer elapsed duration');
+			}
 			$iDuration = null;
 			// Several coverage windows found, use the one that gives the stricter deadline, thus the longer elasped duration
 			while($oCoverage = $oCoverageSet->Fetch())
@@ -159,6 +183,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetDeadlineFromCoverage(CoverageWindow $oCoverage, DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		if (is_null($oCoverage))
 		{
 			// 24x7
@@ -184,6 +212,10 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public static function GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		if (is_null($oCoverage))
 		{
 			// 24x7

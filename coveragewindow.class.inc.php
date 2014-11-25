@@ -71,10 +71,14 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	 */
 	public function GetDeadline(DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		$aHolidays2 = array();
 		while($oHoliday = $oHolidaysSet->Fetch())
 		{
-			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
+			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->GetKey();
 		}
 
 		$oCurDate = clone $oStartDate;
@@ -118,10 +122,14 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	 */
 	public function GetOpenDuration($oHolidaysSet, $oStartDate, $oEndDate)
 	{
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
+		}
 		$aHolidays2 = array();
 		while($oHoliday = $oHolidaysSet->Fetch())
 		{
-			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->Get('date');
+			$aHolidays2[$oHoliday->Get('date')] = $oHoliday->GetKey();
 		}
 
 		$oCurDate = clone $oStartDate;
@@ -204,6 +212,16 @@ class _CoverageWindow_ extends cmdbAbstractObject
 		if ($this->IsHoliday($oStart, $aHolidays))
 		{
 			// do nothing, start = end: the interval is of no duration... will be skipped
+
+			// Report the holiday
+			if (class_exists('WorkingTimeRecorder'))
+			{
+				$iHoliday = $this->GetHoliday($oStart, $aHolidays);
+				$oEndOfTheHoliday = clone $oStart;
+				$oEndOfTheHoliday->SetTime(0, 0, 0);
+				$oEndOfTheHoliday->modify('+1 day');
+				WorkingTimeRecorder::AddInterval($oStart->format('U'), $oEndOfTheHoliday->format('U'), true, 'Holiday', $iHoliday);
+			}
 		}
 		else
 		{
@@ -228,6 +246,16 @@ class _CoverageWindow_ extends cmdbAbstractObject
 			if ($this->IsHoliday($oStart, $aHolidays))
 			{
 				// do nothing, start = end: the interval is of no duration... will be skipped
+
+				// Report the holiday
+				if (class_exists('WorkingTimeRecorder'))
+				{
+					$iHoliday = $this->GetHoliday($oStart, $aHolidays);
+					$oEndOfTheHoliday = clone $oStart;
+					$oEndOfTheHoliday->SetTime(0, 0, 0);
+					$oEndOfTheHoliday->modify('+1 day');
+					WorkingTimeRecorder::AddInterval($oStart->format('U'), $oEndOfTheHoliday->format('U'), true, 'Holiday', $iHoliday);
+				}
 			}
 			else
 			{
@@ -245,6 +273,10 @@ class _CoverageWindow_ extends cmdbAbstractObject
 				$this->ModifyDate($oStart, $aData['start']);
 				$this->ModifyDate($oEnd, $aData['end']);
 			}
+		}
+		if (class_exists('WorkingTimeRecorder'))
+		{
+			WorkingTimeRecorder::AddInterval($oStart->format('U'), $oEnd->format('U'), false, get_class($this), $this->GetKey());
 		}
 		return array('start' => $oStart, 'end' => $oEnd);
 	}
@@ -290,7 +322,26 @@ class _CoverageWindow_ extends cmdbAbstractObject
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Purpose: for reporting (if present)	
+	 */	
+	protected function GetHoliday($oDate, $aHolidays)
+	{
+		$sDate = $oDate->format('Y-m-d');
+		
+		if (isset($aHolidays[$sDate]))
+		{
+			// Holiday found in the calendar
+			return $aHolidays[$sDate];
+		}
+		else
+		{
+			// No such holiday in the calendar
+			return null;
+		}
+	}
+
 	public function IsInsideCoverage($oCurDate, $oHolidaysSet = null)
 	{
 		if ($oHolidaysSet != null)
@@ -298,7 +349,7 @@ class _CoverageWindow_ extends cmdbAbstractObject
 			$aHolidays = array();
 			while($oHoliday = $oHolidaysSet->Fetch())
 			{
-				$aHolidays[$oHoliday->Get('date')] = $oHoliday->Get('date');
+				$aHolidays[$oHoliday->Get('date')] = $oHoliday->GetKey();
 			}
 			// Today's holiday! Not considered inside the coverage
 			if ($this->IsHoliday($oCurDate, $aHolidays)) return false;
