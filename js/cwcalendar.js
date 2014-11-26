@@ -221,7 +221,7 @@ $(function()
 				var sEndTime = $('#dlg_end_time').val();
 				var oEvent = aEvents[0];
 				oEvent.start = this._setTime(oEvent.start, sStartTime);
-				oEvent.end = this._setTime(oEvent.end, sEndTime);
+				oEvent.end = this._setTime(oEvent.start, sEndTime); // Use start time since end time may already be tomorrow if 24:00 was set before
 				this.element.fullCalendar('updateEvent', oEvent);
 				this._serializeAllEvents();
 				return true;
@@ -233,15 +233,16 @@ $(function()
 		},
 		_setTime: function(oDate, sTime)
 		{
+			var oNewDate = new Date(oDate.valueOf());
 			var aMatches = /([0-9]+):([0-9]+)/.exec(sTime);
 			if (aMatches != null)
 			{
 				var iHours = parseInt(aMatches[1], 10);
 				var iMinutes = parseInt(aMatches[2], 10);
-				oDate.setHours(iHours);
-				oDate.setMinutes(iMinutes);
+				oNewDate.setHours(iHours);
+				oNewDate.setMinutes(iMinutes);
 			}
-			return oDate;
+			return oNewDate;
 		},
 		_serializeAllEvents: function()
 		{
