@@ -16,7 +16,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'combodo-sla-computation/2.1.8',
+	'combodo-sla-computation/2.1.9',
 	array(
 		// Identification
 		//
@@ -40,7 +40,7 @@ SetupWebPage::AddModule(
 			'main.combodo-sla-computation.php'
 		),
 		'webservice' => array(
-			
+
 		),
 		'data.struct' => array(
 			// add your 'structure' definition XML files here,
@@ -48,11 +48,11 @@ SetupWebPage::AddModule(
 		'data.sample' => array(
 			// add your sample data XML files here,
 		),
-		
+
 		// Documentation
 		//
 		'doc.manual_setup' => '', // hyperlink to manual setup documentation, if any
-		'doc.more_information' => '', // hyperlink to more information, if any 
+		'doc.more_information' => '', // hyperlink to more information, if any
 
 		// Default settings
 		//
@@ -98,10 +98,10 @@ if (!class_exists('CoverageWindowInstaller'))
 			{
 				// Convert the previous format where all data were stored as fields: monday_start, monday_end, tuesday_start...
 				// directly inside the CoverageWindow class, to the new format where the open hours are stored as "CoverageWindowInterval" objects
-				
+
 				// Check if the "old" column "start_monday" exists. If so, then the data needs to be migrated
 				$sTableName = MetaModel::DBGetTable('CoverageWindow');
-				
+
 				$aFields = CMDBSource::QueryToArray("SHOW COLUMNS FROM `$sTableName`");
 				// Note: without backticks, you get an error with some table names (e.g. "group")
 				$bOldColumns = false;
@@ -113,7 +113,7 @@ if (!class_exists('CoverageWindowInstaller'))
 						break;
 					}
 				}
-				
+
 				if ($bOldColumns)
 				{
 					$aCoverageWindows = CMDBSource::QueryToArray("SELECT * FROM `$sTableName`");
@@ -122,7 +122,7 @@ if (!class_exists('CoverageWindowInstaller'))
 					foreach($aCoverageWindows as $aCW)
 					{
 						$iId = $aCW['id'];
-												
+
 						foreach(array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday') as $sWeekday)
 						{
 							if ($sWeekday == 'wednesday')
@@ -134,7 +134,7 @@ if (!class_exists('CoverageWindowInstaller'))
 								$sStartTime = $aCW[$sWeekday.'_start'];
 							}
 							$sEndTime = $aCW[$sWeekday.'_end'];
-							
+
 							if ($sStartTime != $sEndTime)
 							{
 								// Non-empty interval
@@ -153,12 +153,12 @@ if (!class_exists('CoverageWindowInstaller'))
 					$sCleanup = "ALTER TABLE `$sTableName` DROP `monday_start`, DROP `monday_end`, DROP `tuesday_start`, DROP `tuesday_end`, DROP `wendnesday_start`, DROP `wednesday_end`, ";
 					$sCleanup .= "DROP `thursday_start`, DROP `thursday_end`, DROP `friday_start`, DROP `friday_end`, DROP `saturday_start`, DROP `saturday_end`, DROP `sunday_start`, DROP `sunday_end`";
 					CMDBSource::Query($sCleanup);
-					
+
 					SetupPage::log_info("CoverageWindow: cleanup of old columns: done.");
 				}
 			}
 		}
-		
+
 		/**
 		 * Convert (if needed) from the decimal format: e.g. 8.75 => 08:45
 		 * Properly formatted strings (hh:mm) are not modified.
@@ -190,7 +190,7 @@ if (!class_exists('CoverageWindowInstaller'))
 					$sValue = '00:00';
 				}
 			}
-			return $sValue;			
+			return $sValue;
 		}
 	}
 }
