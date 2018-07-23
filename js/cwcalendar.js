@@ -223,8 +223,8 @@ $(function()
 			});
 			if (sWholeDayChecked != '')
 			{
-				$('#dlg_start_time').attr('disabled', 'disabled');
-				$('#dlg_end_time').attr('disabled', 'disabled');
+				$('#dlg_start_time').prop('disabled', true);
+				$('#dlg_end_time').prop('disabled', true);
 			}
 			$('#dlg_whole_day').bind('click change', function() { me._wholeDayClicked(); });
 			$('#dlg_start_time').bind('change keyup', function() { me._validateTime($(this), false); });
@@ -235,13 +235,13 @@ $(function()
 			var bChecked = $('#dlg_whole_day').prop('checked');
 			if (bChecked)
 			{
-				$('#dlg_start_time').val('00:00').attr('disabled', 'disabled');
-				$('#dlg_end_time').val('24:00').attr('disabled', 'disabled');
+				$('#dlg_start_time').val('00:00').prop('disabled', true);
+				$('#dlg_end_time').val('24:00').prop('disabled', true);
 			}
 			else
 			{
-				$('#dlg_start_time').removeAttr('disabled');
-				$('#dlg_end_time').removeAttr('disabled');
+				$('#dlg_start_time').prop('disabled', false);
+				$('#dlg_end_time').prop('disabled', false);
 			}
 		},
 		_validateTime: function(input, bAllowMidnight)
