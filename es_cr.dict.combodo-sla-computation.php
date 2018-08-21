@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2010 Combodo SARL
+// Copyright (C) 2010-2018 Combodo SARL
 //
 //   This program is free software; you can redistribute it and/or modify
 //   it under the terms of the GNU General Public License as published by
@@ -26,56 +26,56 @@
 // Class: CoverageWindow
 //
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'EspaÃ±ol, Castellano', array(
 	'Menu:CoverageWindows' => 'Ventana de Cobertura',
 	'Menu:CoverageWindows+' => 'Todas las Ventanas de Cobertura',
 	'Class:CoverageWindow' => 'Ventana de Cobertura',
 	'Class:CoverageWindow+' => '',
 	'Class:CoverageWindow/Attribute:name' => 'Nombre',
 	'Class:CoverageWindow/Attribute:name+' => '',
-	'Class:CoverageWindow/Attribute:description' => 'Descripción',
+	'Class:CoverageWindow/Attribute:description' => 'DescripciÃ³n',
 	'Class:CoverageWindow/Attribute:description+' => '',
-	'Class:CoverageWindow/Attribute:friendlyname' => 'Nombre Común',
+	'Class:CoverageWindow/Attribute:friendlyname' => 'Nombre ComÃºn',
 	'Class:CoverageWindow/Attribute:friendlyname+' => '',
 	'Class:CoverageWindow/Attribute:interval_list' => 'Horas abiertas',
 	'WorkingHoursInterval:StartTime' => 'Tiempo Inicio:',
 	'WorkingHoursInterval:EndTime' => 'Tiempo Final:',
-	'WorkingHoursInterval:WholeDay' => 'Todo el Día:',
+	'WorkingHoursInterval:WholeDay' => 'Todo el DÃ­a:',
 	'WorkingHoursInterval:RemoveIntervalButton' => 'Remover Intervalo',
-	'WorkingHoursInterval:DlgTitle' => 'Edición de intervalo de horas abiertas',
+	'WorkingHoursInterval:DlgTitle' => 'EdiciÃ³n de intervalo de horas abiertas',
 	'Class:CoverageWindowInterval' => 'Intervalo de Horas Abiertas',
 	'Class:CoverageWindowInterval/Attribute:coverage_window_id' => 'Ventana de Cobertura',
-	'Class:CoverageWindowInterval/Attribute:weekday' => 'Días de la Semana',
+	'Class:CoverageWindowInterval/Attribute:weekday' => 'DÃ­as de la Semana',
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:sunday' => 'Domingo',
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:monday' => 'Lunes',
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:tuesday' => 'Martes',
-	'Class:CoverageWindowInterval/Attribute:weekday/Value:wednesday' => 'Miércoles',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:wednesday' => 'MiÃ©rcoles',
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:thursday' => 'Jueves',
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:friday' => 'Viernes',
-	'Class:CoverageWindowInterval/Attribute:weekday/Value:saturday' => 'Sábado',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:saturday' => 'SÃ¡bado',
 	'Class:CoverageWindowInterval/Attribute:start_time' => 'Tiempo Inicio',
 	'Class:CoverageWindowInterval/Attribute:end_time' => 'Tiempo Final',
 	
 ));
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'EspaÃ±ol, Castellano', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Festivos',
 	'Menu:Holidays+' => 'Todos los Festivos',
 	'Class:Holiday' => 'Festivo',
-	'Class:Holiday+' => 'Día no laborable',
+	'Class:Holiday+' => 'DÃ­a no laborable',
 	'Class:Holiday/Attribute:name' => 'Nombre',
 	'Class:Holiday/Attribute:date' => 'Fecha',
 	'Class:Holiday/Attribute:calendar_id' => 'Calendario',
-	'Class:Holiday/Attribute:calendar_id+' => 'El calendario al cual el día festivo está relacionado (si hay alguno)',
-	'Coverage:Description' => 'Descripción',	
+	'Class:Holiday/Attribute:calendar_id+' => 'El calendario al cual el dÃ­a festivo estÃ¡ relacionado (si hay alguno)',
+	'Coverage:Description' => 'DescripciÃ³n',	
 	'Coverage:StartTime' => 'Tiempo Inicio',	
 	'Coverage:EndTime' => 'Tiempo Final',
 
 ));
 
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'EspaÃ±ol, Castellano', array(
 	// Dictionary entries go here
 	'Menu:HolidayCalendars' => 'Calendario de Festivos',
 	'Menu:HolidayCalendars+' => 'Todos los Calendarios de Festivos',
