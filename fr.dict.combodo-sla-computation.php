@@ -82,4 +82,3 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nom',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Jours Fériés',
 ));
-?>

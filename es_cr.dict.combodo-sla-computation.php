@@ -82,4 +82,3 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nombre',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Festivos',
 ));
-?>

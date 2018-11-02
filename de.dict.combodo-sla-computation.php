@@ -82,4 +82,3 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Name',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Feiertage',
 ));
-?>

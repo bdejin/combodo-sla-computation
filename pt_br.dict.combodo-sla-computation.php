@@ -82,4 +82,3 @@ Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nome',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Feriados',
 ));
-?>
