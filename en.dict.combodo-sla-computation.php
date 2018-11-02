@@ -83,4 +83,3 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Name',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Holidays',
 ));
-?>
