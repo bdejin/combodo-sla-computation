@@ -13,7 +13,6 @@
 //   You should have received a copy of the GNU General Public License
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 /**
  * Localized data
  *
@@ -25,7 +24,6 @@
 //
 // Class: CoverageWindow
 //
-
 Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 	'Menu:CoverageWindows' => 'Janelas de Cobertura',
 	'Menu:CoverageWindows+' => 'Todas as janelas de cobertura',
@@ -55,7 +53,7 @@ Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:saturday' => 'Sábado',
 	'Class:CoverageWindowInterval/Attribute:start_time' => 'Hora de início',
 	'Class:CoverageWindowInterval/Attribute:end_time' => 'Hora de término',
-
+	
 ));
 
 Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
@@ -68,8 +66,8 @@ Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 	'Class:Holiday/Attribute:date' => 'Data',
 	'Class:Holiday/Attribute:calendar_id' => 'Calendário',
 	'Class:Holiday/Attribute:calendar_id+' => 'O calendário ao qual este feriado está relacionado (se houver)',
-	'Coverage:Description' => 'Descrição',
-	'Coverage:StartTime' => 'Hora de início',
+	'Coverage:Description' => 'Descrição',	
+	'Coverage:StartTime' => 'Hora de início',	
 	'Coverage:EndTime' => 'Hora de término',
 
 ));

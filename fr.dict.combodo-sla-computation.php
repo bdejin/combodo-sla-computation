@@ -13,7 +13,6 @@
 //   You should have received a copy of the GNU General Public License
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 /**
  * Localized data
  *
@@ -25,7 +24,6 @@
 //
 // Class: CoverageWindow
 //
-
 Dict::Add('FR FR', 'French', 'Français', array(
 	'Menu:CoverageWindows' => 'Heures Ouvrées',
 	'Menu:CoverageWindows+' => 'Toutes les Heures Ouvrées',
@@ -35,15 +33,14 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:CoverageWindow/Attribute:name+' => '',
 	'Class:CoverageWindow/Attribute:description' => 'Description',
 	'Class:CoverageWindow/Attribute:description+' => '',
+	'Class:CoverageWindow/Attribute:friendlyname' => 'Usual name~~',
+	'Class:CoverageWindow/Attribute:friendlyname+' => '~~',
 	'Class:CoverageWindow/Attribute:interval_list' => 'Heures Ouvrées',
 	'WorkingHoursInterval:StartTime' => 'Heure de début:',
 	'WorkingHoursInterval:EndTime' => 'Heure de fin:',
 	'WorkingHoursInterval:WholeDay' => 'Journée complète:',
 	'WorkingHoursInterval:RemoveIntervalButton' => 'Supprimer l\'intervalle',
 	'WorkingHoursInterval:DlgTitle' => 'Edition de l\'intervalle',
-	'Coverage:Description' => 'Description',	
-	'Coverage:StartTime' => 'Heures de début',	
-	'Coverage:EndTime' => 'Heures de fin',
 	'Class:CoverageWindowInterval' => 'Intervalle d\'heures ouvrées',
 	'Class:CoverageWindowInterval/Attribute:coverage_window_id' => 'Heures Ouvrées',
 	'Class:CoverageWindowInterval/Attribute:weekday' => 'Jour de la semaine',
@@ -56,6 +53,7 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:CoverageWindowInterval/Attribute:weekday/Value:saturday' => 'Samedi',
 	'Class:CoverageWindowInterval/Attribute:start_time' => 'Heure de début',
 	'Class:CoverageWindowInterval/Attribute:end_time' => 'Heure de fin',
+	
 ));
 
 Dict::Add('FR FR', 'French', 'Français', array(
@@ -68,6 +66,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:Holiday/Attribute:date' => 'Date',
 	'Class:Holiday/Attribute:calendar_id' => 'Calendrier',
 	'Class:Holiday/Attribute:calendar_id+' => 'Le calendrier (optional) auquel est rattaché ce jour férié',
+	'Coverage:Description' => 'Description',	
+	'Coverage:StartTime' => 'Heures de début',	
+	'Coverage:EndTime' => 'Heures de fin',
+
 ));
 
 

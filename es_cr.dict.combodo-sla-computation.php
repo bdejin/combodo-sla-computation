@@ -13,7 +13,6 @@
 //   You should have received a copy of the GNU General Public License
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 /**
  * Localized data
  *
@@ -25,8 +24,7 @@
 //
 // Class: CoverageWindow
 //
-
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	'Menu:CoverageWindows' => 'Ventana de Cobertura',
 	'Menu:CoverageWindows+' => 'Todas las Ventanas de Cobertura',
 	'Class:CoverageWindow' => 'Ventana de Cobertura',
@@ -58,7 +56,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	
 ));
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Festivos',
 	'Menu:Holidays+' => 'Todos los Festivos',
@@ -75,7 +73,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 ));
 
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	// Dictionary entries go here
 	'Menu:HolidayCalendars' => 'Calendario de Festivos',
 	'Menu:HolidayCalendars+' => 'Todos los Calendarios de Festivos',
@@ -84,3 +82,4 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nombre',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Festivos',
 ));
+?>
