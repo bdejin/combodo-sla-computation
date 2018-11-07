@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2012-2017 Combodo SARL
+// Copyright (C) 2012-2018 Combodo SARL
 //
 //   This file is part of iTop.
 //
@@ -35,7 +35,7 @@ class _CoverageWindow_ extends cmdbAbstractObject
 		$this->aIntervalsPerWeekday = null;
 	}
 	
-	public function GetBareProperties(WebPage $oPage, $bEditMode = false, $sPrefix, $aExtraParams = array())
+	public function GetBareProperties(WebPage $oPage, $bEditMode, $sPrefix, $aExtraParams = array())
 	{
 		$aFieldsMap = parent::GetBareProperties($oPage, $bEditMode, $sPrefix, $aExtraParams);
 		$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/css/fullcalendar.css?v='.ITOP_BUILD_DATE);
@@ -159,7 +159,8 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	}
 	
 	/**
-	 * Merge overlapping intervals by updating the existing intervals and discarding the uneeded ones
+	 * Merge overlapping intervals by updating the existing intervals and discarding the unneeded ones
+	 *
 	 * @param WorkingTimeInterval[] $aIntervals
 	 * @return WorkingTimeInterval[]
 	 */
@@ -169,7 +170,6 @@ class _CoverageWindow_ extends cmdbAbstractObject
 		usort($aIntervals, array(__class__, 'SortIntervalOnStartTime'));
 		
 		$aIntervalsPerDay = array();
-		$aResult = array();
 		foreach($aIntervals as $oInterval)
 		{
 			if (!array_key_exists($oInterval->Get('weekday'), $aIntervalsPerDay))
@@ -277,7 +277,7 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	
 	/**
 	 * Convert an hour (as a string) in format hh:ss into a decimal hour (as a float)
-	 * @param unknown $sTime
+	 * @param string $sTime (HH:mm)
 	 * @return number
 	 */
 	static public function ToDecimal($sTime)
@@ -292,10 +292,15 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	 * Get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the CoverageWindow object and the given
 	 * set of Holiday objects.
+	 *
 	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
 	 * @param $iDuration integer The duration (in seconds) in the future
 	 * @param $oStartDate DateTime The starting point for the computation
+	 *
 	 * @return DateTime The date/time for the deadline
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MySQLException
 	 */
 	public function GetDeadline(DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
@@ -343,10 +348,15 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the CoverageWindow and the given
 	 * set of Holiday objects.
+	 *
 	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
 	 * @param $oStartDate DateTime The starting point for the computation (default = now)
 	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 *
 	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MySQLException
 	 */
 	public function GetOpenDuration($oHolidaysSet, $oStartDate, $oEndDate)
 	{
@@ -503,6 +513,7 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	
 	/**
 	 * Modify a date by a (floating point) number of hours (e.g. 11.5 hours for 11 hours and 30 minutes)
+	 *
 	 * @param $oDate DateTime The date to modify
 	 * @param $fHours number Number of hours to offset the date
 	 */
@@ -519,9 +530,10 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	
 	/**
 	 * Get the first interval of open hours which ends after the given time, for the given day of the week
+	 *
 	 * @param int $iDayIndex zero based index for the day of the week (0 = Sunday)
 	 * @param string $sTime The time expressed as a string in 24 hours format: hh:mm
-	 * @return multitype:number An array like ('start' => 8.5, 'end' => 19.25 )
+	 * @return mixed:number An array like ('start' => 8.5, 'end' => 19.25 )
 	 */
 	protected function GetOpenHours($iDayIndex, $sTime)
 	{
@@ -573,7 +585,7 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	/**
 	 * Is the given date a holiday?
 	 * @param DateTime $oDate
-	 * @param hash $aHolidays
+	 * @param array $aHolidays
 	 * @return boolean
 	 */
 	protected function IsHoliday(DateTime $oDate, $aHolidays)
@@ -613,9 +625,14 @@ class _CoverageWindow_ extends cmdbAbstractObject
 
 	/**
 	 * Check if the given date & time is within the open hours of the coverage window
+	 *
 	 * @param DateTime $oCurDate
 	 * @param DBObjectSet $oHolidaysSet
+	 *
 	 * @return boolean
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MySQLException
 	 */
 	public function IsInsideCoverage(DateTime $oCurDate, $oHolidaysSet = null)
 	{
