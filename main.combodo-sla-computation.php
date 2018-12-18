@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 2010-2013 Combodo SARL
+// Copyright (C) 2010-2018 Combodo SARL
 //
 
 
@@ -24,15 +24,23 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 */
 	public function Init()
 	{
-	}	
+	}
 
 	/**
 	 * Get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours for a specified ticket
+	 *
 	 * @param $oTicket Ticket The ticket for which to compute the deadline
 	 * @param $iDuration integer The duration (in seconds) in the future
 	 * @param $oStartDate DateTime The starting point for the computation
+	 *
 	 * @return DateTime The date/time for the deadline
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MissingQueryArgument
+	 * @throws \MySQLException
+	 * @throws \MySQLHasGoneAwayException
+	 * @throws \OQLException
 	 */
 	public static function GetDeadline($oTicket, $iDuration, DateTime $oStartDate)
 	{
@@ -74,6 +82,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			break;
 			
 			case 1:
+			/** @var \CoverageWindow $oCoverage */
 			$oCoverage = $oCoverageSet->Fetch();
 			$oDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
 			break;
@@ -85,6 +94,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			}
 			$oDeadline = null;
 			// Several coverage windows found, use the one that gives the stricter deadline
+			/** @var \CoverageWindow $oCoverage */
 			while($oCoverage = $oCoverageSet->Fetch())
 			{
 				$oTmpDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
@@ -100,13 +110,21 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 
 		return $oDeadline;
 	}
-	
+
 	/**
 	 * Get duration (considering only open hours) elapsed bewteen two given DateTimes
+	 *
 	 * @param $oTicket Ticket The ticket for which to compute the duration
 	 * @param $oStartDate DateTime The starting point for the computation (default = now)
 	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 *
 	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MissingQueryArgument
+	 * @throws \MySQLException
+	 * @throws \MySQLHasGoneAwayException
+	 * @throws \OQLException
 	 */
 	public static function GetOpenDuration($oTicket, DateTime $oStartDate, DateTime $oEndDate)
 	{
@@ -147,6 +165,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			break;
 			
 			case 1:
+			/** @var \CoverageWindow $oCoverage */
 			$oCoverage = $oCoverageSet->Fetch();
 			$iDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);		
 			break;
@@ -158,6 +177,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			}
 			$iDuration = null;
 			// Several coverage windows found, use the one that gives the stricter deadline, thus the longer elasped duration
+			/** @var \CoverageWindow $oCoverage */
 			while($oCoverage = $oCoverageSet->Fetch())
 			{
 				$iTmpDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
@@ -170,16 +190,21 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		}
 		return $iDuration;
 	}
-	
+
 	/**
 	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
 	 * set of Holiday objects.
+	 *
 	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
 	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
 	 * @param $iDuration integer The duration (in seconds) in the future
 	 * @param $oStartDate DateTime The starting point for the computation
+	 *
 	 * @return DateTime The date/time for the deadline
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MySQLException
 	 */
 	public static function GetDeadlineFromCoverage(CoverageWindow $oCoverage, DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
@@ -204,11 +229,16 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * Helper function to get the date/time corresponding to a given delay in the future from the present,
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
 	 * set of Holiday objects.
+	 *
 	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
 	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
 	 * @param $oStartDate DateTime The starting point for the computation (default = now)
 	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 *
 	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 * @throws \CoreException
+	 * @throws \CoreUnexpectedValue
+	 * @throws \MySQLException
 	 */
 	public static function GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate)
 	{

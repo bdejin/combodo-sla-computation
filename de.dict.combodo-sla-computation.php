@@ -13,7 +13,6 @@
 //   You should have received a copy of the GNU General Public License
 //   along with this program; if not, write to the Free Software
 //   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
 /**
  * Localized data
  *
@@ -25,7 +24,6 @@
 //
 // Class: CoverageWindow
 //
-
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Menu:CoverageWindows' => 'Zeitfenster',
 	'Menu:CoverageWindows+' => 'Alle Zeitfenster',
@@ -35,36 +33,27 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:CoverageWindow/Attribute:name+' => '',
 	'Class:CoverageWindow/Attribute:description' => 'Beschreibung',
 	'Class:CoverageWindow/Attribute:description+' => '',
-	'Class:CoverageWindow/Attribute:monday_start' => 'Beginn am Montag',
-	'Class:CoverageWindow/Attribute:monday_start+' => '',
-	'Class:CoverageWindow/Attribute:monday_end' => 'Ende am Montag',
-	'Class:CoverageWindow/Attribute:monday_end+' => '',
-	'Class:CoverageWindow/Attribute:tuesday_start' => 'Beginn am Dienstag',
-	'Class:CoverageWindow/Attribute:tuesday_start+' => '',
-	'Class:CoverageWindow/Attribute:tuesday_end' => 'Ende am Dienstag',
-	'Class:CoverageWindow/Attribute:tuesday_end+' => '',
-	'Class:CoverageWindow/Attribute:wednesday_start' => 'Beginn am Mittwoch',
-	'Class:CoverageWindow/Attribute:wednesday_start+' => '',
-	'Class:CoverageWindow/Attribute:wednesday_end' => 'Ende am Mittwoch',
-	'Class:CoverageWindow/Attribute:wednesday_end+' => '',
-	'Class:CoverageWindow/Attribute:thursday_start' => 'Beginn am Donnerstag',
-	'Class:CoverageWindow/Attribute:thursday_start+' => '',
-	'Class:CoverageWindow/Attribute:thursday_end' => 'Ende am Donnerstag',
-	'Class:CoverageWindow/Attribute:thursday_end+' => '',
-	'Class:CoverageWindow/Attribute:friday_start' => 'Beginn am Freitag',
-	'Class:CoverageWindow/Attribute:friday_start+' => '',
-	'Class:CoverageWindow/Attribute:friday_end' => 'Ende am Freitag',
-	'Class:CoverageWindow/Attribute:friday_end+' => '',
-	'Class:CoverageWindow/Attribute:saturday_start' => 'Beginn am Samstag',
-	'Class:CoverageWindow/Attribute:saturday_start+' => '',
-	'Class:CoverageWindow/Attribute:saturday_end' => 'Ende am Samstag',
-	'Class:CoverageWindow/Attribute:saturday_end+' => '',
-	'Class:CoverageWindow/Attribute:sunday_start' => 'Beginn am Sonntag',
-	'Class:CoverageWindow/Attribute:sunday_start+' => '',
-	'Class:CoverageWindow/Attribute:sunday_end' => 'Ende am Sonntag',
-	'Class:CoverageWindow/Attribute:sunday_end+' => '',
 	'Class:CoverageWindow/Attribute:friendlyname' => 'Bezeichnung',
 	'Class:CoverageWindow/Attribute:friendlyname+' => '',
+	'Class:CoverageWindow/Attribute:interval_list' => 'Open Hours~~',
+	'WorkingHoursInterval:StartTime' => 'Start Time:~~',
+	'WorkingHoursInterval:EndTime' => 'End Time:~~',
+	'WorkingHoursInterval:WholeDay' => 'Whole Day:~~',
+	'WorkingHoursInterval:RemoveIntervalButton' => 'Remove Interval~~',
+	'WorkingHoursInterval:DlgTitle' => 'Open hours interval edition~~',
+	'Class:CoverageWindowInterval' => 'Open hours Interval~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_id' => 'Coverage Window~~',
+	'Class:CoverageWindowInterval/Attribute:weekday' => 'Day of the week~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:sunday' => 'Sunday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:monday' => 'Monday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:tuesday' => 'Tuesday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:wednesday' => 'Wednesday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:thursday' => 'Thursday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:friday' => 'Friday~~',
+	'Class:CoverageWindowInterval/Attribute:weekday/Value:saturday' => 'Saturday~~',
+	'Class:CoverageWindowInterval/Attribute:start_time' => 'Start Time~~',
+	'Class:CoverageWindowInterval/Attribute:end_time' => 'End Time~~',
+	
 ));
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
@@ -83,6 +72,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 
 ));
 
+
 Dict::Add('DE DE', 'German', 'Deutsch', array(
 	// Dictionary entries go here
 	'Menu:HolidayCalendars' => 'Feiertagskalender',
@@ -92,4 +82,3 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Name',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Feiertage',
 ));
-?>
