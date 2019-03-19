@@ -82,3 +82,21 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nom',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Jours Fériés',
 ));
+
+//
+// Class: CoverageWindowInterval
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
+));
+
+//
+// Class: Holiday
+//
+
+Dict::Add('FR FR', 'French', 'Français', array(
+	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
+	'Class:Holiday/Attribute:calendar_name+' => '~~',
+));

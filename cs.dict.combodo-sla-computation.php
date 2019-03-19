@@ -20,11 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with iTop. If not, see <http://www.gnu.org/licenses/>
  */
-
 //
 // Class: CoverageWindow
 //
-
 Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 	'Menu:CoverageWindows' => 'Coverage Windows~~',
 	'Menu:CoverageWindows+' => 'All Coverage Windows~~',
@@ -82,4 +80,22 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 	'Class:HolidayCalendar+' => 'A group of holidays that other objects can relate to~~',
 	'Class:HolidayCalendar/Attribute:name' => 'Name~~',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Holidays~~',
+));
+
+//
+// Class: CoverageWindowInterval
+//
+
+Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
+));
+
+//
+// Class: Holiday
+//
+
+Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
+	'Class:Holiday/Attribute:calendar_name+' => '~~',
 ));
