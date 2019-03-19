@@ -82,3 +82,21 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Nombre',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Festivos',
 ));
+
+//
+// Class: CoverageWindowInterval
+//
+
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
+));
+
+//
+// Class: Holiday
+//
+
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
+	'Class:Holiday/Attribute:calendar_name+' => '~~',
+));

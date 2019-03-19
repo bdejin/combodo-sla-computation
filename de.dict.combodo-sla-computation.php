@@ -82,3 +82,21 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Name',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Feiertage',
 ));
+
+//
+// Class: CoverageWindowInterval
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
+));
+
+//
+// Class: Holiday
+//
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
+	'Class:Holiday/Attribute:calendar_name+' => '~~',
+));

@@ -83,3 +83,21 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:HolidayCalendar/Attribute:name' => 'Name',
 	'Class:HolidayCalendar/Attribute:holiday_list' => 'Holidays',
 ));
+
+//
+// Class: CoverageWindowInterval
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '',
+));
+
+//
+// Class: Holiday
+//
+
+Dict::Add('EN US', 'English', 'English', array(
+	'Class:Holiday/Attribute:calendar_name' => 'Calendar name',
+	'Class:Holiday/Attribute:calendar_name+' => '',
+));
