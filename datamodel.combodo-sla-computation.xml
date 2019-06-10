@@ -55,6 +55,22 @@
         </field>
       </fields>
       <methods>
+        <method id="DoCheckToWrite" _delta="define">
+          <comment>	/**
+            * Check presence of Open Hours for coverage window
+            */</comment>
+          <static>false</static>
+          <access>public</access>
+          <code><![CDATA[	public function DoCheckToWrite()
+	{
+		/** @var \ormLinkSet $oInterval */
+		$oInterval = $this->Get('interval_list');
+		if ($oInterval->Count() == 0)
+		{
+			$this->m_aCheckIssues[] = Dict::S('CoverageWindow:Error:MissingIntervalList');
+		}
+	}]]></code>
+        </method>
       </methods>
       <presentation>
         <details>

@@ -94,9 +94,9 @@ class _CoverageWindow_ extends cmdbAbstractObject
 		return $aFieldsMap;
 	}
 	
-	public function UpdateObjectFromPostedForm($sFormPrefix = '', $aAttList = null, $sTargetState = '')
+	public function UpdateObjectFromPostedForm($sFormPrefix = '', $aAttList = null, $aAttFlags = array())
 	{
-		$aErrors = parent::UpdateObjectFromPostedForm($sFormPrefix, $aAttList, $sTargetState);
+		$aErrors = parent::UpdateObjectFromPostedForm($sFormPrefix, $aAttList, $aAttFlags);
 		
 		// Update the list of (related) intervals from the posted JSON string
 		$aDays = array(

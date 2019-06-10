@@ -57,6 +57,10 @@ Dict::Add('FR FR', 'French', 'Français', array(
 ));
 
 Dict::Add('FR FR', 'French', 'Français', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Les Heures Ouvrées doivent être spécifiées',
+));
+
+Dict::Add('FR FR', 'French', 'Français', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Jours Fériés',
 	'Menu:Holidays+' => 'Tous les Jours Fériés',
