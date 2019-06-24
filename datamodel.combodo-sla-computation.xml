@@ -58,11 +58,16 @@
         <method id="DoCheckToWrite" _delta="define">
           <comment>	/**
             * Check presence of Open Hours for coverage window
+            * (only when accessed from GUI)
             */</comment>
           <static>false</static>
           <access>public</access>
           <code><![CDATA[	public function DoCheckToWrite()
 	{
+	    if (!ContextTag::Check('GUI:Portal') && !ContextTag::Check('GUI:Console'))
+	    {
+	      return; // Check only GUI
+	    }
 		/** @var \ormLinkSet $oInterval */
 		$oInterval = $this->Get('interval_list');
 		if ($oInterval->Count() == 0)
