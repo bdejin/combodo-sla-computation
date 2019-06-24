@@ -72,7 +72,7 @@
 		$oInterval = $this->Get('interval_list');
 		if ($oInterval->Count() == 0)
 		{
-			$this->m_aCheckIssues[] = Dict::S('CoverageWindow:Error:MissingIntervalList');
+			$this->m_aCheckWarnings[] = Dict::S('CoverageWindow:Error:MissingIntervalList');
 		}
 	}]]></code>
         </method>
