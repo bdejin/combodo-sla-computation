@@ -98,6 +98,16 @@
             </item>
           </items>
         </search>
+        <default_search>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+            <item id="description">
+              <rank>20</rank>
+            </item>
+          </items>
+        </default_search>
         <list>
           <items>
             <item id="name">
@@ -196,7 +206,7 @@
               <rank>40</rank>
             </item>
           </items>
-        </details>
+        </details>    
         <search>
           <items>
             <item id="coverage_window_id">
@@ -207,6 +217,16 @@
             </item>
           </items>
         </search>
+        <default_search>
+          <items>
+            <item id="coverage_window_id">
+              <rank>10</rank>
+            </item>
+             <item id="weekday">
+              <rank>20</rank>
+            </item>
+          </items>
+        </default_search>
         <list>
           <items>
             <item id="coverage_window_id">
