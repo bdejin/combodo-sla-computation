@@ -196,15 +196,12 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
 	 * set of Holiday objects.
 	 *
-	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
-	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
-	 * @param $iDuration integer The duration (in seconds) in the future
-	 * @param $oStartDate DateTime The starting point for the computation
+	 * @param CoverageWindow $oCoverage The coverage window defining the open hours
+	 * @param DBObjectSet $oHolidaysSet The list of holidays to take into account
+	 * @param integer $iDuration The duration (in seconds) in the future
+	 * @param DateTime $oStartDate The starting point for the computation
 	 *
 	 * @return DateTime The date/time for the deadline
-	 * @throws \CoreException
-	 * @throws \CoreUnexpectedValue
-	 * @throws \MySQLException
 	 */
 	public static function GetDeadlineFromCoverage(CoverageWindow $oCoverage, DBObjectSet $oHolidaysSet, $iDuration, DateTime $oStartDate)
 	{
