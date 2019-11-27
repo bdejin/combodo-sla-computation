@@ -27,14 +27,68 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 
 	/**
-	 * Get the date/time corresponding to a given delay in the future from the present,
-	 * considering only the valid (open) hours for a specified ticket
+	 * @return string
+	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
+	 */
+	protected static function GetCoverageOql()
+	{
+		return MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
+	}
+
+	/**
+	 * @param \DBObject $oTicket
 	 *
-	 * @param $oTicket Ticket The ticket for which to compute the deadline
-	 * @param $iDuration integer The duration (in seconds) in the future
-	 * @param $oStartDate DateTime The starting point for the computation
+	 * @return \DBObjectSet
+	 * @throws \OQLException
+	 * @throws \Exception
+	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
+	 */
+	protected static function GetCoverageSet($oTicket)
+	{
+		$sCoverageOQL = static::GetCoverageOql();
+		if ($sCoverageOQL !== '')
+		{
+			return new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
+		}
+
+		return DBObjectSet::FromScratch('CoverageWindow');
+	}
+
+	/**
+	 * @return string
+	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
+	 */
+	protected static function GetHolidaysOql()
+	{
+		return MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
+	}
+
+	/**
+	 * @param \DBObject $oTicket
 	 *
-	 * @return DateTime The date/time for the deadline
+	 * @return \DBObjectSet
+	 * @throws \OQLException
+	 * @throws \Exception
+	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
+	 */
+	protected static function GetHolidaysSet($oTicket)
+	{
+		$sHolidaysOQL = static::GetHolidaysOql();
+		if ($sHolidaysOQL !== '')
+		{
+			return new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
+		}
+
+		return DBObjectSet::FromScratch('Holiday');
+	}
+
+	/**
+	 * @param Ticket $oTicket The ticket for which to compute the deadline
+	 * @param integer $iDuration The duration (in seconds) in the future
+	 * @param DateTime $oStartDate The starting point for the computation
+	 *
+	 * @return DateTime date/time corresponding to a given delay in the future from the present,
+	 *      considering only the valid (open) hours for a specified ticket
 	 * @throws \CoreException
 	 * @throws \CoreUnexpectedValue
 	 * @throws \MissingQueryArgument
@@ -48,28 +102,12 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
 		}
-		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
+
+		$oCoverageSet = static::GetCoverageSet($oTicket);
+		$oHolidaysSet = static::GetHolidaysSet($oTicket);
+
 		$oCoverage = null;
-
-		$sHolidaysOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
-		if ($sHolidaysOQL != '')
-		{
-			$oHolidaysSet = new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
-		}
-		else
-		{
-			$oHolidaysSet = DBObjectSet::FromScratch('Holiday'); // Build an empty set
-		}
-
-		if ($sCoverageOQL != '')
-		{
-			$oCoverageSet = new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
-		}
-		else
-		{
-			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
-		}
-		switch ($oCoverageSet->Count())
+		switch($oCoverageSet->Count())
 		{
 			case 0:
 				if (class_exists('WorkingTimeRecorder'))
@@ -113,13 +151,11 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 
 	/**
-	 * Get duration (considering only open hours) elapsed bewteen two given DateTimes
+	 * @param Ticket $oTicket The ticket for which to compute the duration
+	 * @param DateTime $oStartDate The starting point for the computation (default = now)
+	 * @param DateTime $oEndDate The ending point for the computation (default = now)
 	 *
-	 * @param $oTicket Ticket The ticket for which to compute the duration
-	 * @param $oStartDate DateTime The starting point for the computation (default = now)
-	 * @param $oEndDate DateTime The ending point for the computation (default = now)
-	 *
-	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
+	 * @return integer duration (number of seconds), considering only open hours, elapsed between two given DateTimes
 	 * @throws \CoreException
 	 * @throws \CoreUnexpectedValue
 	 * @throws \MissingQueryArgument
@@ -133,27 +169,11 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
 		}
-		$sCoverageOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
+
+		$oCoverageSet = static::GetCoverageSet($oTicket);
+		$oHolidaysSet = static::GetHolidaysSet($oTicket);
+
 		$oCoverage = null;
-
-		$sHolidaysOQL = MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
-		if ($sHolidaysOQL != '')
-		{
-			$oHolidaysSet = new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
-		}
-		else
-		{
-			$oHolidaysSet = DBObjectSet::FromScratch('Holiday'); // Build an empty set
-		}
-
-		if ($sCoverageOQL != '')
-		{
-			$oCoverageSet = new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
-		}
-		else
-		{
-			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
-		}
 		switch ($oCoverageSet->Count())
 		{
 			case 0:
