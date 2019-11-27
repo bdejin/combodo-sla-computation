@@ -69,43 +69,44 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
 		}
-		switch($oCoverageSet->Count())
+		switch ($oCoverageSet->Count())
 		{
 			case 0:
-			if (class_exists('WorkingTimeRecorder'))
-			{
-				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
-			}
-			// No coverage window: 24x7 computation
-			$oDeadline = clone $oStartDate;
-			$oDeadline->modify( '+'.$iDuration.' seconds');			
-			break;
-			
-			case 1:
-			/** @var \CoverageWindow $oCoverage */
-			$oCoverage = $oCoverageSet->Fetch();
-			$oDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
-			break;
-			
-			default:
-			if (class_exists('WorkingTimeRecorder'))
-			{
-				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'Several coverage windows: use the one that gives the stricter deadline');
-			}
-			$oDeadline = null;
-			// Several coverage windows found, use the one that gives the stricter deadline
-			/** @var \CoverageWindow $oCoverage */
-			while($oCoverage = $oCoverageSet->Fetch())
-			{
-				$oTmpDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
-				// Retain the nearer deadline
-				// According to the PHP documentation, the plain comparison operator between DateTime objects
-				// (i.e $oTmpDeadline < $oDeadline) is only implemented in PHP 5.2.2
-				if ( ($oDeadline == null) || ($oTmpDeadline->format('U') < $oDeadline->format('U')))
+				if (class_exists('WorkingTimeRecorder'))
 				{
-					$oDeadline = $oTmpDeadline;
-				}			
-			}
+					WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
+				}
+				// No coverage window: 24x7 computation
+				$oDeadline = clone $oStartDate;
+				$oDeadline->modify('+'.$iDuration.' seconds');
+				break;
+
+			case 1:
+				/** @var \CoverageWindow $oCoverage */
+				$oCoverage = $oCoverageSet->Fetch();
+				$oDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+				break;
+
+			default:
+				if (class_exists('WorkingTimeRecorder'))
+				{
+					WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO,
+						'Several coverage windows: use the one that gives the stricter deadline');
+				}
+				$oDeadline = null;
+				// Several coverage windows found, use the one that gives the stricter deadline
+				/** @var \CoverageWindow $oCoverage */
+				while ($oCoverage = $oCoverageSet->Fetch())
+				{
+					$oTmpDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+					// Retain the nearer deadline
+					// According to the PHP documentation, the plain comparison operator between DateTime objects
+					// (i.e $oTmpDeadline < $oDeadline) is only implemented in PHP 5.2.2
+					if (($oDeadline == null) || ($oTmpDeadline->format('U') < $oDeadline->format('U')))
+					{
+						$oDeadline = $oTmpDeadline;
+					}
+				}
 		}
 
 		return $oDeadline;
@@ -153,41 +154,43 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			$oCoverageSet = DBObjectSet::FromScratch('CoverageWindow');
 		}
-		switch($oCoverageSet->Count())
+		switch ($oCoverageSet->Count())
 		{
 			case 0:
-			if (class_exists('WorkingTimeRecorder'))
-			{
-				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
-			}
-			// No coverage window: 24x7 computation.. what about holidays ??
-			$iDuration = parent::GetOpenDuration($oTicket, $oStartDate, $oEndDate);			
-			break;
-			
-			case 1:
-			/** @var \CoverageWindow $oCoverage */
-			$oCoverage = $oCoverageSet->Fetch();
-			$iDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);		
-			break;
-			
-			default:
-			if (class_exists('WorkingTimeRecorder'))
-			{
-				WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'Several coverage windows: use the one that gives the stricter deadline, thus the longer elapsed duration');
-			}
-			$iDuration = null;
-			// Several coverage windows found, use the one that gives the stricter deadline, thus the longer elasped duration
-			/** @var \CoverageWindow $oCoverage */
-			while($oCoverage = $oCoverageSet->Fetch())
-			{
-				$iTmpDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
-				// Retain the longer duration
-				if ( ($iDuration == null) || ($iTmpDuration > $iDuration))
+				if (class_exists('WorkingTimeRecorder'))
 				{
-					$iDuration = $iTmpDuration;
-				}			
-			}
+					WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO, 'No coverage window');
+				}
+				// No coverage window: 24x7 computation.. what about holidays ??
+				$iDuration = parent::GetOpenDuration($oTicket, $oStartDate, $oEndDate);
+				break;
+
+			case 1:
+				/** @var \CoverageWindow $oCoverage */
+				$oCoverage = $oCoverageSet->Fetch();
+				$iDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
+				break;
+
+			default:
+				if (class_exists('WorkingTimeRecorder'))
+				{
+					WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_INFO,
+						'Several coverage windows: use the one that gives the stricter deadline, thus the longer elapsed duration');
+				}
+				$iDuration = null;
+				// Several coverage windows found, use the one that gives the stricter deadline, thus the longer elasped duration
+				/** @var \CoverageWindow $oCoverage */
+				while ($oCoverage = $oCoverageSet->Fetch())
+				{
+					$iTmpDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
+					// Retain the longer duration
+					if (($iDuration == null) || ($iTmpDuration > $iDuration))
+					{
+						$iDuration = $iTmpDuration;
+					}
+				}
 		}
+
 		return $iDuration;
 	}
 
@@ -213,12 +216,13 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 		{
 			// 24x7
 			$oDeadline = clone $oStartDate;
-			$oDeadline->modify( '+'.$iDuration.' seconds');
+			$oDeadline->modify('+'.$iDuration.' seconds');
 		}
 		else
-		{			
+		{
 			$oDeadline = $oCoverage->GetDeadline($oHolidaysSet, $iDuration, $oStartDate);
 		}
+
 		return $oDeadline;
 	}
 
@@ -249,7 +253,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			return abs($oEndDate->format('U') - $oStartDate->format('U'));
 		}
 		else
-		{			
+		{
 			return $oCoverage->GetOpenDuration($oHolidaysSet, $oStartDate, $oEndDate);
 		}
 	}
