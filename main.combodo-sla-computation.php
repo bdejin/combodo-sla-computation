@@ -11,6 +11,8 @@
  * @author      Denis Flaven <denis.flaven@combodo.com>
  */
 
+
+
 /**
  * Extension to the SLA computation mechanism
  * This class implements a behavior based on:
@@ -27,25 +29,27 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 
 	/**
+	 * @param Ticket $oTicket The ticket for which to compute the deadline
+	 *
 	 * @return string
 	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
 	 */
-	protected static function GetCoverageOql()
+	protected static function GetCoverageOql($oTicket)
 	{
 		return MetaModel::GetModuleSetting('combodo-sla-computation', 'coverage_oql', '');
 	}
 
 	/**
-	 * @param \DBObject $oTicket
+	 * @param Ticket $oTicket The ticket for which to compute the deadline
+	 * @param string $sOql default OQL query
 	 *
 	 * @return \DBObjectSet
 	 * @throws \OQLException
-	 * @throws \Exception
 	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
 	 */
-	protected static function GetCoverageSet($oTicket)
+	protected static function GetCoverageSet($oTicket, $sOql)
 	{
-		$sCoverageOQL = static::GetCoverageOql();
+		$sCoverageOQL = $sOql ?: static::GetCoverageOql($oTicket);
 		if ($sCoverageOQL !== '')
 		{
 			return new DBObjectSet(DBObjectSearch::FromOQL($sCoverageOQL), array(), array('this' => $oTicket));
@@ -55,25 +59,27 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	}
 
 	/**
+	 * @param Ticket $oTicket The ticket for which to compute the deadline
+	 *
 	 * @return string
 	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
 	 */
-	protected static function GetHolidaysOql()
+	protected static function GetHolidaysOql($oTicket)
 	{
 		return MetaModel::GetModuleSetting('combodo-sla-computation', 'holidays_oql', '');
 	}
 
 	/**
-	 * @param \DBObject $oTicket
+	 * @param Ticket $oTicket The ticket for which to compute the deadline
+	 * @param string $sOql default OQL query
 	 *
 	 * @return \DBObjectSet
 	 * @throws \OQLException
-	 * @throws \Exception
 	 * @since 2.3.0 N°2042 Deadline / OpenDuration extensibility
 	 */
-	protected static function GetHolidaysSet($oTicket)
+	protected static function GetHolidaysSet($oTicket, $sOql)
 	{
-		$sHolidaysOQL = static::GetHolidaysOql();
+		$sHolidaysOQL = $sOql ?: static::GetHolidaysOql($oTicket);
 		if ($sHolidaysOQL !== '')
 		{
 			return new DBObjectSet(DBObjectSearch::FromOQL($sHolidaysOQL), array(), array('this' => $oTicket));
@@ -86,6 +92,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * @param Ticket $oTicket The ticket for which to compute the deadline
 	 * @param integer $iDuration The duration (in seconds) in the future
 	 * @param DateTime $oStartDate The starting point for the computation
+	 * @param string $sCoverageOql if provided, use this OQL
+	 * @param string $sHolidaysOql if provided, use this OQL
 	 *
 	 * @return DateTime date/time corresponding to a given delay in the future from the present,
 	 *      considering only the valid (open) hours for a specified ticket
@@ -96,18 +104,18 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * @throws \MySQLHasGoneAwayException
 	 * @throws \OQLException
 	 */
-	public static function GetDeadline($oTicket, $iDuration, DateTime $oStartDate)
+	public static function GetDeadline($oTicket, $iDuration, DateTime $oStartDate, $sCoverageOql = '', $sHolidaysOql = '')
 	{
 		if (class_exists('WorkingTimeRecorder'))
 		{
 			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
 		}
 
-		$oCoverageSet = static::GetCoverageSet($oTicket);
-		$oHolidaysSet = static::GetHolidaysSet($oTicket);
+		$oCoverageSet = static::GetCoverageSet($oTicket, $sCoverageOql);
+		$oHolidaysSet = static::GetHolidaysSet($oTicket, $sHolidaysOql);
 
 		$oCoverage = null;
-		switch($oCoverageSet->Count())
+		switch ($oCoverageSet->Count())
 		{
 			case 0:
 				if (class_exists('WorkingTimeRecorder'))
@@ -122,7 +130,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			case 1:
 				/** @var \CoverageWindow $oCoverage */
 				$oCoverage = $oCoverageSet->Fetch();
-				$oDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+				$oDeadline = static::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
 				break;
 
 			default:
@@ -136,7 +144,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 				/** @var \CoverageWindow $oCoverage */
 				while ($oCoverage = $oCoverageSet->Fetch())
 				{
-					$oTmpDeadline = self::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
+					$oTmpDeadline = static::GetDeadlineFromCoverage($oCoverage, $oHolidaysSet, $iDuration, $oStartDate);
 					// Retain the nearer deadline
 					// According to the PHP documentation, the plain comparison operator between DateTime objects
 					// (i.e $oTmpDeadline < $oDeadline) is only implemented in PHP 5.2.2
@@ -154,6 +162,8 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * @param Ticket $oTicket The ticket for which to compute the duration
 	 * @param DateTime $oStartDate The starting point for the computation (default = now)
 	 * @param DateTime $oEndDate The ending point for the computation (default = now)
+	 * @param string $sCoverageOql if provided, use this OQL
+	 * @param string $sHolidaysOql if provided, use this OQL
 	 *
 	 * @return integer duration (number of seconds), considering only open hours, elapsed between two given DateTimes
 	 * @throws \CoreException
@@ -163,15 +173,15 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * @throws \MySQLHasGoneAwayException
 	 * @throws \OQLException
 	 */
-	public static function GetOpenDuration($oTicket, DateTime $oStartDate, DateTime $oEndDate)
+	public static function GetOpenDuration($oTicket, DateTime $oStartDate, DateTime $oEndDate, $sCoverageOql = '', $sHolidaysOql = '')
 	{
 		if (class_exists('WorkingTimeRecorder'))
 		{
 			WorkingTimeRecorder::Trace(WorkingTimeRecorder::TRACE_DEBUG, __class__.'::'.__function__);
 		}
 
-		$oCoverageSet = static::GetCoverageSet($oTicket);
-		$oHolidaysSet = static::GetHolidaysSet($oTicket);
+		$oCoverageSet = static::GetCoverageSet($oTicket, $sCoverageOql);
+		$oHolidaysSet = static::GetHolidaysSet($oTicket, $sHolidaysOql);
 
 		$oCoverage = null;
 		switch ($oCoverageSet->Count())
@@ -188,7 +198,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 			case 1:
 				/** @var \CoverageWindow $oCoverage */
 				$oCoverage = $oCoverageSet->Fetch();
-				$iDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
+				$iDuration = static::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
 				break;
 
 			default:
@@ -202,7 +212,7 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 				/** @var \CoverageWindow $oCoverage */
 				while ($oCoverage = $oCoverageSet->Fetch())
 				{
-					$iTmpDuration = self::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
+					$iTmpDuration = static::GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate);
 					// Retain the longer duration
 					if (($iDuration == null) || ($iTmpDuration > $iDuration))
 					{
@@ -251,15 +261,12 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 	 * considering only the valid (open) hours as specified by the supplied CoverageWindow object and the given
 	 * set of Holiday objects.
 	 *
-	 * @param $oCoverage CoverageWindow The coverage window defining the open hours
-	 * @param $oHolidaysSet DBObjectSet The list of holidays to take into account
-	 * @param $oStartDate DateTime The starting point for the computation (default = now)
-	 * @param $oEndDate DateTime The ending point for the computation (default = now)
+	 * @param CoverageWindow $oCoverage The coverage window defining the open hours
+	 * @param DBObjectSet $oHolidaysSet The list of holidays to take into account
+	 * @param DateTime $oStartDate The starting point for the computation (default = now)
+	 * @param DateTime $oEndDate The ending point for the computation (default = now)
 	 *
 	 * @return integer The duration (number of seconds) of open hours elapsed between the two dates
-	 * @throws \CoreException
-	 * @throws \CoreUnexpectedValue
-	 * @throws \MySQLException
 	 */
 	public static function GetOpenDurationFromCoverage($oCoverage, $oHolidaysSet, $oStartDate, $oEndDate)
 	{
@@ -300,4 +307,3 @@ class EnhancedSLAComputation extends SLAComputationAddOnAPI
 
 // By default, since this extension is present, let's use it !
 SLAComputation::SelectModule('EnhancedSLAComputation');
-?>
