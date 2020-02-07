@@ -56,6 +56,10 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 ));
 
 Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',

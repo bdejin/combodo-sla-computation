@@ -56,6 +56,10 @@ Dict::Add('TR TR', 'Turkish', 'Türkçe', array(
 ));
 
 Dict::Add('TR TR', 'Turkish', 'Türkçe', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('TR TR', 'Turkish', 'Türkçe', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',

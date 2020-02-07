@@ -57,6 +57,10 @@ Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 ));
 
 Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('PT BR', 'Brazilian', 'Brazilian', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Feriados',
 	'Menu:Holidays+' => 'Todos feriados',

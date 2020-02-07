@@ -56,6 +56,10 @@ Dict::Add('NL NL', 'Dutch', 'Nederlands', array(
 ));
 
 Dict::Add('NL NL', 'Dutch', 'Nederlands', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('NL NL', 'Dutch', 'Nederlands', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',

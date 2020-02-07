@@ -20,11 +20,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with iTop. If not, see <http://www.gnu.org/licenses/>
  */
-
 //
 // Class: CoverageWindow
 //
-
 Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'Menu:CoverageWindows' => 'Coverage Windows~~',
 	'Menu:CoverageWindows+' => 'All Coverage Windows~~',
@@ -55,6 +53,10 @@ Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'Class:CoverageWindowInterval/Attribute:start_time' => 'Start Time~~',
 	'Class:CoverageWindowInterval/Attribute:end_time' => 'End Time~~',
 	
+));
+
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
 ));
 
 Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(

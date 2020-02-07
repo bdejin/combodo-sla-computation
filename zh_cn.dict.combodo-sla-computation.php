@@ -56,6 +56,10 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 ));
 
 Dict::Add('ZH CN', 'Chinese', '简体中文', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',

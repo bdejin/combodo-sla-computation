@@ -57,6 +57,10 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('DE DE', 'German', 'Deutsch', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Feiertage',
 	'Menu:Holidays+' => 'Alle Feiertage',

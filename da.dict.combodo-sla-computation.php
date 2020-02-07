@@ -56,6 +56,10 @@ Dict::Add('DA DA', 'Danish', 'Dansk', array(
 ));
 
 Dict::Add('DA DA', 'Danish', 'Dansk', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('DA DA', 'Danish', 'Dansk', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',
