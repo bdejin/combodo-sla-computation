@@ -23,7 +23,7 @@
 //
 // Class: CoverageWindow
 //
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'Menu:CoverageWindows' => 'Coverage Windows~~',
 	'Menu:CoverageWindows+' => 'All Coverage Windows~~',
 	'Class:CoverageWindow' => 'Coverage Window~~',
@@ -55,11 +55,11 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 	
 ));
 
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
 ));
 
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',
@@ -76,7 +76,7 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 ));
 
 
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	// Dictionary entries go here
 	'Menu:HolidayCalendars' => 'Holiday Calendars~~',
 	'Menu:HolidayCalendars+' => 'All Holiday Calendars~~',
@@ -90,7 +90,7 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 // Class: CoverageWindowInterval
 //
 
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
 	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
 ));
@@ -99,7 +99,7 @@ Dict::Add('CS CZ', 'Czech', 'Čeština', array(
 // Class: Holiday
 //
 
-Dict::Add('CS CZ', 'Czech', 'Čeština', array(
+Dict::Add('SK SK', 'Slovak', 'Slovenčina', array(
 	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
 	'Class:Holiday/Attribute:calendar_name+' => '~~',
 ));

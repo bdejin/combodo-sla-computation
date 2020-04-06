@@ -57,6 +57,10 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 ));
 
 Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Festivos',
 	'Menu:Holidays+' => 'Todos los Festivos',

@@ -55,6 +55,27 @@
         </field>
       </fields>
       <methods>
+        <method id="DoCheckToWrite" _delta="define">
+          <comment>	/**
+            * Check presence of Open Hours for coverage window
+            * (only when accessed from GUI)
+            */</comment>
+          <static>false</static>
+          <access>public</access>
+          <code><![CDATA[	public function DoCheckToWrite()
+	{
+	    if (!ContextTag::Check('GUI:Portal') && !ContextTag::Check('GUI:Console'))
+	    {
+	      return; // Check only GUI
+	    }
+		/** @var \ormLinkSet $oInterval */
+		$oInterval = $this->Get('interval_list');
+		if ($oInterval->Count() == 0)
+		{
+			$this->m_aCheckWarnings[] = Dict::S('CoverageWindow:Error:MissingIntervalList');
+		}
+	}]]></code>
+        </method>
       </methods>
       <presentation>
         <details>
@@ -77,6 +98,16 @@
             </item>
           </items>
         </search>
+        <default_search>
+          <items>
+            <item id="name">
+              <rank>10</rank>
+            </item>
+            <item id="description">
+              <rank>20</rank>
+            </item>
+          </items>
+        </default_search>
         <list>
           <items>
             <item id="name">
@@ -175,7 +206,7 @@
               <rank>40</rank>
             </item>
           </items>
-        </details>
+        </details>    
         <search>
           <items>
             <item id="coverage_window_id">
@@ -186,6 +217,16 @@
             </item>
           </items>
         </search>
+        <default_search>
+          <items>
+            <item id="coverage_window_id">
+              <rank>10</rank>
+            </item>
+             <item id="weekday">
+              <rank>20</rank>
+            </item>
+          </items>
+        </default_search>
         <list>
           <items>
             <item id="coverage_window_id">
@@ -281,7 +322,20 @@
             </item>
           </items>
         </search>
-        <list>
+        <default_search>
+          <items>
+            <item id="friendlyname">
+              <rank>10</rank>
+            </item>
+            <item id="calendar_id">
+              <rank>20</rank>
+            </item>
+            <item id="date">
+              <rank>30</rank>
+            </item>
+          </items>
+        </default_search>
+	<list>
           <items>
             <item id="date">
               <rank>10</rank>
@@ -348,6 +402,13 @@
             </item>
           </items>
         </search>
+	<default_search>
+          <items>
+            <item id="friendlyname">
+              <rank>10</rank>
+            </item>
+          </items>
+        </default_search>
       </presentation>
     </class>
   </classes>

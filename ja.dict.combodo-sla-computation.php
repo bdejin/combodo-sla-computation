@@ -56,6 +56,10 @@ Dict::Add('JA JP', 'Japanese', '日本語', array(
 ));
 
 Dict::Add('JA JP', 'Japanese', '日本語', array(
+	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+));
+
+Dict::Add('JA JP', 'Japanese', '日本語', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Holidays~~',
 	'Menu:Holidays+' => 'All Holidays~~',
