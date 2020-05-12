@@ -550,10 +550,25 @@ class _CoverageWindow_ extends cmdbAbstractObject
 		if ($this->aIntervalsPerWeekday == null)
 		{
 			$oSet = $this->Get('interval_list');
-			$oSet->Rewind();
-			while($oInterval = $oSet->Fetch())
+			//when a coveray window don't have any interval, we consider that it's 24/7
+			if (count($oSet) == 0)
 			{
-				$this->aIntervalsPerWeekday[$oInterval->Get('weekday')][] = $oInterval;
+				foreach ($aWeekDayNames as $sDay)
+				{
+					$oInterval = new CoverageWindowInterval();
+					$oInterval->Set('start_time', '00:00');
+					$oInterval->Set('end_time', '24:00');
+					$oInterval->Set('weekday', $sDay);
+					$this->aIntervalsPerWeekday[$sDay][] = $oInterval;
+				}
+			}
+			else
+			{
+				$oSet->Rewind();
+				while ($oInterval = $oSet->Fetch())
+				{
+					$this->aIntervalsPerWeekday[$oInterval->Get('weekday')][] = $oInterval;
+				}
 			}
 		}
 		
