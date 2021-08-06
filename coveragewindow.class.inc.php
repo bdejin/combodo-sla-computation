@@ -39,9 +39,10 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	{
 		$aFieldsMap = parent::GetBareProperties($oPage, $bEditMode, $sPrefix, $aExtraParams);
 		$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/css/fullcalendar.css?v='.ITOP_BUILD_DATE);
+		$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/css/style.css?v='.ITOP_BUILD_DATE);
 		$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/js/fullcalendar.js?v='.ITOP_BUILD_DATE);
 		$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/js/cwcalendar.js?v='.ITOP_BUILD_DATE);
-		$oPage->add('<div style="max-width:800px;"><div style="text-align:center;">'.Dict::S('Class:CoverageWindow/Attribute:interval_list').'</div>');
+		$oPage->add('<div><div style="text-align:center;">'.Dict::S('Class:CoverageWindow/Attribute:interval_list').'</div>');
 		$oPage->add('<div id="cwcalendar"></div></div>');
 		
 		$sInitialDate = '2010-11-01'; // it's a Monday
