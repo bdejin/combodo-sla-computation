@@ -57,7 +57,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', array(
 ));
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
-	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
+	'CoverageWindow:Error:MissingIntervalList' => 'Die Geschäftszeiten müssen definiert werden.',
 ));
 
 Dict::Add('DE DE', 'German', 'Deutsch', array(
