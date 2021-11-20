@@ -199,7 +199,7 @@ $(function()
 			{
 				sWholeDayChecked = 'checked';
 			}
-			var sDlg = '<div id="cw_calendar_dlg"><table style="width:100%">';
+			var sDlg = '<div id="cw_calendar_dlg"><table class="cw_calendar_dlg_inputs" style="width:100%">';
 
 			sDlg += '<input type="hidden" id="dlg_event_id" value="'+id+'">';
 			sDlg += '<tr><td>'+this.options.labels.start+'</td><td><input id="dlg_start_time" type="text" size="5" value="'+sStart+'"/><span style="display:inline-block;width:20px;" id="v_dlg_start_time"></span></td></tr>';
@@ -216,9 +216,21 @@ $(function()
 				modal: true,
 				close: function() { $('#cw_calendar_dlg').remove(); },
 				buttons:[
-				  {text: this.options.labels.ok, click: function() { if (me._updateEventFromDlg()) { $('#cw_calendar_dlg').dialog('close'); } }},
-				  {text: this.options.labels.cancel, click: function() { $('#cw_calendar_dlg').dialog('close'); }},
-				  {text: this.options.labels.remove, click: function() { me._removeEventFromDlg(); $('#cw_calendar_dlg').dialog('close'); }},
+				  {
+				  	text: this.options.labels.remove,
+					click: function() { me._removeEventFromDlg(); $('#cw_calendar_dlg').dialog('close'); },
+				    class: "ibo-is-alternative ibo-is-danger"
+				  },
+				  {
+				  	text: this.options.labels.cancel,
+					click: function() { $('#cw_calendar_dlg').dialog('close'); },
+					class: "ibo-is-alternative ibo-is-neutral"
+				  },
+				  {
+				  	text: this.options.labels.ok,
+					click: function() { if (me._updateEventFromDlg()) { $('#cw_calendar_dlg').dialog('close'); } },
+				    class: "ibo-is-regular ibo-is-primary"
+				  },
 				]
 			});
 			if (sWholeDayChecked != '')

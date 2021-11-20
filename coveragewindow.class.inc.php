@@ -27,6 +27,20 @@
  */
 class _CoverageWindow_ extends cmdbAbstractObject
 {
+	const XML_LEGACY_VERSION = '1.7';
+
+	/**
+	 * Compare static::XML_LEGACY_VERSION with ITOP_DESIGN_LATEST_VERSION and returns true if the later is <= to the former.
+	 * If static::XML_LEGACY_VERSION, return false
+	 *
+	 * @return bool
+	 *
+	 * @since 2.4.0
+	 */
+	public static function UseLegacy(){
+		return static::XML_LEGACY_VERSION !== '' ? version_compare(ITOP_DESIGN_LATEST_VERSION, static::XML_LEGACY_VERSION, '<=') : false;
+	}
+
 	protected $aIntervalsPerWeekday; // Local cache to speedup computations
 	
 	public function __construct($aRow = null, $sClassAlias = '', $aAttToLoad = null, $aExtendedDataSpec = null)
@@ -38,10 +52,21 @@ class _CoverageWindow_ extends cmdbAbstractObject
 	public function GetBareProperties(WebPage $oPage, $bEditMode, $sPrefix, $aExtraParams = array())
 	{
 		$aFieldsMap = parent::GetBareProperties($oPage, $bEditMode, $sPrefix, $aExtraParams);
+
 		$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/css/fullcalendar.css?v='.ITOP_BUILD_DATE);
 		$oPage->add_linked_stylesheet(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/css/style.css?v='.ITOP_BUILD_DATE);
 		$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/js/fullcalendar.js?v='.ITOP_BUILD_DATE);
 		$oPage->add_linked_script(utils::GetAbsoluteUrlModulesRoot().'combodo-sla-computation/js/cwcalendar.js?v='.ITOP_BUILD_DATE);
+
+		if (!static::UseLegacy()) {
+			$oPage->add_style(<<<CSS
+.cw_calendar_dlg_inputs tr:not(:first-child) td {
+	padding-top: 6px; /* Same as the SCSS variable \$ibo-input-one-way-password--elements-spacing-y */
+}
+CSS
+			);
+		}
+
 		$oPage->add('<div><div style="text-align:center;">'.Dict::S('Class:CoverageWindow/Attribute:interval_list').'</div>');
 		$oPage->add('<div id="cwcalendar"></div></div>');
 		
