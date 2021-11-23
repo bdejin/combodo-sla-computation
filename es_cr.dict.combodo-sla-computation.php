@@ -24,7 +24,7 @@
 //
 // Class: CoverageWindow
 //
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'Menu:CoverageWindows' => 'Ventana de Cobertura',
 	'Menu:CoverageWindows+' => 'Todas las Ventanas de Cobertura',
 	'Class:CoverageWindow' => 'Ventana de Cobertura',
@@ -56,11 +56,11 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 	
 ));
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'CoverageWindow:Error:MissingIntervalList' => 'Open Hours have to be specified~~',
 ));
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	// Dictionary entries go here
 	'Menu:Holidays' => 'Festivos',
 	'Menu:Holidays+' => 'Todos los Festivos',
@@ -77,7 +77,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 ));
 
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	// Dictionary entries go here
 	'Menu:HolidayCalendars' => 'Calendario de Festivos',
 	'Menu:HolidayCalendars+' => 'Todos los Calendarios de Festivos',
@@ -91,7 +91,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 // Class: CoverageWindowInterval
 //
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
 	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
 ));
@@ -100,7 +100,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
 // Class: Holiday
 //
 
-Dict::Add('ES CR', 'Spanish', 'Español, Castellaño', array(
+Dict::Add('ES CR', 'Spanish', 'Español, Castellano', array(
 	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
 	'Class:Holiday/Attribute:calendar_name+' => '~~',
 ));
