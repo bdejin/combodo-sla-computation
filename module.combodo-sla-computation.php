@@ -16,7 +16,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'combodo-sla-computation/2.4.0',
+	'combodo-sla-computation/2.4.1-dev',
 	array(
 		// Identification
 		//
@@ -27,7 +27,7 @@ SetupWebPage::AddModule(
 		//
 		'dependencies' => array(
 			'itop-sla-computation/1.0.0',
-			'itop-service-mgmt/2.0.0||itop-service-mgmt-provider/2.0.0', // Needed to place new menu entries
+			'itop-service-mgmt/2.4.0||itop-service-mgmt-provider/2.4.0', // Needed to place new menu entries
 		),
 		'mandatory' => true,
 		'visible' => false,
@@ -148,13 +148,13 @@ if (!class_exists('CoverageWindowInstaller'))
 						}
 						$iCount++;
 					}
-					SetupPage::log_info("Conversion of open hours intervals: $iCount CoverageWindow instance(s) successfully processed.");
+					SetupLog::Info("Conversion of open hours intervals: $iCount CoverageWindow instance(s) successfully processed.");
 					// Be careful 'wendnesday_start !!!
 					$sCleanup = "ALTER TABLE `$sTableName` DROP `monday_start`, DROP `monday_end`, DROP `tuesday_start`, DROP `tuesday_end`, DROP `wendnesday_start`, DROP `wednesday_end`, ";
 					$sCleanup .= "DROP `thursday_start`, DROP `thursday_end`, DROP `friday_start`, DROP `friday_end`, DROP `saturday_start`, DROP `saturday_end`, DROP `sunday_start`, DROP `sunday_end`";
 					CMDBSource::Query($sCleanup);
 
-					SetupPage::log_info("CoverageWindow: cleanup of old columns: done.");
+					SetupLog::Info("CoverageWindow: cleanup of old columns: done.");
 				}
 			}
 		}
