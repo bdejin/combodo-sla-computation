@@ -33,8 +33,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 	'Class:CoverageWindow/Attribute:name+' => '',
 	'Class:CoverageWindow/Attribute:description' => 'Description',
 	'Class:CoverageWindow/Attribute:description+' => '',
-	'Class:CoverageWindow/Attribute:friendlyname' => 'Usual name~~',
-	'Class:CoverageWindow/Attribute:friendlyname+' => '~~',
+	'Class:CoverageWindow/Attribute:friendlyname' => 'Nom sympathique',
+	'Class:CoverageWindow/Attribute:friendlyname+' => '',
 	'Class:CoverageWindow/Attribute:interval_list' => 'Heures Ouvrées',
 	'WorkingHoursInterval:StartTime' => 'Heure de début:',
 	'WorkingHoursInterval:EndTime' => 'Heure de fin:',
@@ -92,8 +92,8 @@ Dict::Add('FR FR', 'French', 'Français', array(
 //
 
 Dict::Add('FR FR', 'French', 'Français', array(
-	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Coverage window name~~',
-	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '~~',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name' => 'Nom de la fenêtre de couverture',
+	'Class:CoverageWindowInterval/Attribute:coverage_window_name+' => '',
 ));
 
 //
@@ -101,6 +101,6 @@ Dict::Add('FR FR', 'French', 'Français', array(
 //
 
 Dict::Add('FR FR', 'French', 'Français', array(
-	'Class:Holiday/Attribute:calendar_name' => 'Calendar name~~',
-	'Class:Holiday/Attribute:calendar_name+' => '~~',
+	'Class:Holiday/Attribute:calendar_name' => 'Nom du calendrier',
+	'Class:Holiday/Attribute:calendar_name+' => '',
 ));
